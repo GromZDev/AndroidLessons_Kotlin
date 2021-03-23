@@ -1,4 +1,4 @@
-package com.example.kotlin_lesson_1
+package com.example.kotlin_lesson_1.view
 
 
 import android.os.Bundle
@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.kotlin_lesson_1.viewModel.MainViewModel
+import com.example.kotlin_lesson_1.R
 
 class MainFragment : Fragment() {
 
@@ -63,7 +65,7 @@ class MainFragment : Fragment() {
     }
 
     private fun renderData(data: Any) {
-            Toast.makeText(context, "data", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Received Data from ViewModel", Toast.LENGTH_SHORT).show()
     }
 
 }

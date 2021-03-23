@@ -1,8 +1,8 @@
-package com.example.kotlin_lesson_1
+package com.example.kotlin_lesson_1.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import com.example.kotlin_lesson_1.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -12,7 +12,10 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.fragment_container, MainFragment.newInstance())
+                .replace(
+                    R.id.fragment_container,
+                    MainFragment.newInstance()
+                )
                 .addToBackStack(null)
                 .commit()
         }
