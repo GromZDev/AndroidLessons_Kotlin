@@ -10,10 +10,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         if (savedInstanceState == null) {
-            val fragment: Fragment = MainFragment()
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.fragment_container, fragment)
+                .replace(R.id.fragment_container, MainFragment.newInstance())
                 .addToBackStack(null)
                 .commit()
         }
