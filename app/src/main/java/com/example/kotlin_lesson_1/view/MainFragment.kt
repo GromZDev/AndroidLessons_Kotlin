@@ -11,11 +11,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.kotlin_lesson_1.viewModel.MainViewModel
 import com.example.kotlin_lesson_1.R
+import com.example.kotlin_lesson_1.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
 
-    private lateinit var mainView: View
     private lateinit var viewModel: MainViewModel
+    private var _binding: FragmentMainBinding? = null // Наш binding class этого лэйаута
+    private val binding get() = _binding!!
+    private lateinit var mainView: View
 
     companion object {
         fun newInstance() = MainFragment()
@@ -26,14 +29,24 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        mainView = inflater.inflate(R.layout.fragment_main, container, false)
+        _binding = FragmentMainBinding.inflate(inflater, container, false)
+        mainView = binding.root
 
         return mainView
+    }
+
+// В onDestroy обязательно обнуляем _binding чтобы избежать утечек!!! (В активити этого не надо)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.textViewCar.text = "Hello!" // Обращаемся сразу по id лэйаута (выводить в поля
+    // конкретные вьюхи уже не надо
 
     }
 
@@ -49,7 +62,7 @@ class MainFragment : Fragment() {
 // подписаться на изменения в LiveData и получать обновлённые данные каждый раз, когда вызван
 // один из методов для передачи данных в эту LiveData. Подписка на изменения LiveData из Activity
 // выглядит так:
-        val observer = Observer<Any> {renderData(it)}
+        val observer = Observer<Any> { renderData(it) }
 
 // Метод observe() принимает два параметра. 1 LifecycleOwner — интерфейс, который реализуют
 // AppCompatActivity и Fragment из библиотеки поддержки. С его помощью можно получить объект
@@ -65,7 +78,7 @@ class MainFragment : Fragment() {
     }
 
     private fun renderData(data: Any) {
-            Toast.makeText(context, "Received Data from ViewModel", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Received Data from ViewModel", Toast.LENGTH_SHORT).show()
     }
 
 }
