@@ -12,6 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.kotlin_lesson_1.viewModel.MainViewModel
 import com.example.kotlin_lesson_1.R
 import com.example.kotlin_lesson_1.databinding.FragmentMainBinding
+import com.example.kotlin_lesson_1.viewModel.AppState
+import com.google.android.material.snackbar.Snackbar
 
 class MainFragment : Fragment() {
 
@@ -35,7 +37,7 @@ class MainFragment : Fragment() {
         return mainView
     }
 
-// В onDestroy обязательно обнуляем _binding чтобы избежать утечек!!! (В активити этого не надо)
+    // В onDestroy обязательно обнуляем _binding чтобы избежать утечек!!! (В активити этого не надо)
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -46,7 +48,7 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.textViewCar.text = "Hello!" // Обращаемся сразу по id лэйаута (выводить в поля
-    // конкретные вьюхи уже не надо
+        // конкретные вьюхи уже не надо
 
     }
 
@@ -62,7 +64,7 @@ class MainFragment : Fragment() {
 // подписаться на изменения в LiveData и получать обновлённые данные каждый раз, когда вызван
 // один из методов для передачи данных в эту LiveData. Подписка на изменения LiveData из Activity
 // выглядит так:
-        val observer = Observer<Any> { renderData(it) }
+        //   val observer = Observer<Any> { renderData(it) }
 
 // Метод observe() принимает два параметра. 1 LifecycleOwner — интерфейс, который реализуют
 // AppCompatActivity и Fragment из библиотеки поддержки. С его помощью можно получить объект
@@ -73,11 +75,32 @@ class MainFragment : Fragment() {
 // onStart(), но не вызван onStop(). То есть LiveData всегда знает благодаря LifecycleOwner,
 // жива наша Activity или нет, чтобы не передавать данные в уничтоженную Activity.
 
-        viewModel.getLiveData().observe(viewLifecycleOwner, observer)
+        viewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
+        viewModel.getFilm()
 
     }
 
-    private fun renderData(data: Any) {
+    //В renderData мы теперь принимаем объект состояния приложения и через when определяем, что нужно отображать
+    private fun renderData(appState: AppState) {
+        when (appState) {
+            is AppState.Success -> {
+                val filmData = appState.cinemaData
+                binding.loadingLayout.visibility = View.GONE
+                Snackbar.make(mainView, "Well done my friend! ;)", Snackbar.LENGTH_LONG).show()
+            }
+            is AppState.Loading -> {
+                binding.loadingLayout.visibility = View.VISIBLE
+            }
+            is AppState.Error -> {
+                binding.loadingLayout.visibility = View.GONE
+                Snackbar.make(mainView, "Sorry Bro! Some mistake...", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Reload") { viewModel.getFilm() }
+                    .show()
+            }
+        }
+
+
+
         Toast.makeText(context, "Received Data from ViewModel", Toast.LENGTH_SHORT).show()
     }
 
