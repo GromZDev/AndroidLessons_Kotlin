@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.kotlin_lesson_1.viewModel.MainViewModel
 import com.example.kotlin_lesson_1.R
 import com.example.kotlin_lesson_1.databinding.FragmentMainBinding
+import com.example.kotlin_lesson_1.model.FilmFeature
 import com.example.kotlin_lesson_1.viewModel.AppState
 import com.google.android.material.snackbar.Snackbar
 
@@ -47,7 +48,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.textViewCar.text = "Hello!" // Обращаемся сразу по id лэйаута (выводить в поля
+        //   binding.twFilmName.text = "..." // Обращаемся сразу по id лэйаута (выводить в поля
         // конкретные вьюхи уже не надо
 
     }
@@ -76,7 +77,7 @@ class MainFragment : Fragment() {
 // жива наша Activity или нет, чтобы не передавать данные в уничтоженную Activity.
 
         viewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
-        viewModel.getFilm()
+        viewModel.getFilmFromLocalSource()
 
     }
 
@@ -86,22 +87,33 @@ class MainFragment : Fragment() {
             is AppState.Success -> {
                 val filmData = appState.cinemaData
                 binding.loadingLayout.visibility = View.GONE
+                binding.twFilmRatingLabel.visibility = View.VISIBLE
+                binding.twFilmYearLabel.visibility = View.VISIBLE
+                setFilmData(filmData as FilmFeature)
                 Snackbar.make(mainView, "Well done my friend! ;)", Snackbar.LENGTH_LONG).show()
             }
             is AppState.Loading -> {
                 binding.loadingLayout.visibility = View.VISIBLE
+                binding.twFilmRatingLabel.visibility = View.GONE
+                binding.twFilmYearLabel.visibility = View.GONE
             }
             is AppState.Error -> {
                 binding.loadingLayout.visibility = View.GONE
                 Snackbar.make(mainView, "Sorry Bro! Some mistake...", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Reload") { viewModel.getFilm() }
+                    .setAction("Reload") { viewModel.getFilmFromLocalSource() }
                     .show()
             }
         }
 
-
-
         Toast.makeText(context, "Received Data from ViewModel", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun setFilmData(filmData: FilmFeature) {
+        binding.twFilmName.text = filmData.film.filmName
+        binding.twFilmDescription.text = filmData.description
+        binding.twFilmYear.text = filmData.film.filmYear.toString()
+        binding.twFilmRating.text = filmData.film.filmRating.toString()
+        binding.iwFilmImage.setImageResource(R.drawable.film_avengers_inf)
     }
 
 }
