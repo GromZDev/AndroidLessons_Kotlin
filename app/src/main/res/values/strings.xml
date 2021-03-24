@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Kotlin_Lesson_1</string>
+    <string name="film_image">Film Image</string>
+    <string name="receiving_data">Receiving Data...</string>
+    <string name="year">Год:</string>
+    <string name="rating">Оценка:</string>
 </resources>
