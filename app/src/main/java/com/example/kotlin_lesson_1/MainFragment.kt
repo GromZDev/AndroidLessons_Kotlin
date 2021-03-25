@@ -1,13 +1,12 @@
 package com.example.kotlin_lesson_1
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 
 class MainFragment : Fragment() {
@@ -19,20 +18,14 @@ class MainFragment : Fragment() {
     private val word: String = "Hello Kotlin!"
     private lateinit var mainView: View
     private lateinit var carView: TextView
-    private lateinit var myCar: MyCar
-    private lateinit var myCar2: MyCar
-    private lateinit var myCar3: MyCar
     private var myCarList: ArrayList<MyCar> = arrayListOf()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        myCar = MyCar("Subaru", "Impreza", 280)
-        myCar2 = MyCar("Kia", "Soul", 210)
-        myCar3 = MyCar("Mazda", "CX-5", 198)
+        initMyCars()
 
         mainView = inflater.inflate(R.layout.fragment_main, container, false)
 
@@ -44,37 +37,39 @@ class MainFragment : Fragment() {
         return mainView
     }
 
+    private fun initMyCars() {
+        val myCar = MyCar("Subaru", "Outback", 280)
+        val myCar2 = MyCar("Kia", "Soul", 210)
+        val myCar3 = MyCar("Mazda", "CX-5", 198)
+        myCarList.add(myCar)
+        myCarList.add(myCar2)
+        myCarList.add(myCar3)
+    }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val myGarage: String = "Show my Garage"
-        buttonCars.setVisibility(View.INVISIBLE)
-        buttonCars.setText(myGarage)
-        button.setText(buttonText)
-        button.setOnClickListener(View.OnClickListener {
-            textView.setText(word)
+        val myGarage = "Show my Garage"
+        buttonCars.visibility = View.INVISIBLE
+        buttonCars.text = myGarage
+        button.text = buttonText
+        button.setOnClickListener {
+            textView.text = word
 
-            if (textView.text.equals(word)) {
+            if (textView.text == word) {
                 val nextWord = "Ok, let's Rock!"
-                button.setText(nextWord)
-                //  carView.setText(myCar.toString())
-                buttonCars.setVisibility(View.VISIBLE)
+                button.text = nextWord
+
+                buttonCars.visibility = View.VISIBLE
             }
-        })
+        }
 
-
-        myCarList.add(myCar)
-        myCarList.add(myCar2)
-
-        buttonCars.setOnClickListener(View.OnClickListener {
-            carView.setText(myCarList.get(0).brand.toString())
-        })
-
-     //   carView.setText(myCarList.size.toString() + "\n " + myCarList.get(0).toString())
-
-
+        buttonCars.setOnClickListener {
+            carView.text =
+                "Мой виртуальный гараж насчитывает " + myCarList.size.toString() + " тачки:\n \n " + myCarList[0].brand +
+                        "\n" + myCarList[1].brand + "\n " + myCarList[2].brand
+        }
     }
-
 
 }
