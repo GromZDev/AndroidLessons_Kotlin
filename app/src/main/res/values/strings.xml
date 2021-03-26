@@ -4,4 +4,6 @@
     <string name="receiving_data">Receiving Data...</string>
     <string name="year">Год:</string>
     <string name="rating">Оценка:</string>
+    <string name="film_rating_image">Film Rating Image</string>
+    <string name="film_year_icon">Film Year Icon</string>
 </resources>
