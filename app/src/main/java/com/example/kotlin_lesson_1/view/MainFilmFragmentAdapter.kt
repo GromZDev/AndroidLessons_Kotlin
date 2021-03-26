@@ -3,6 +3,7 @@ package com.example.kotlin_lesson_1.view
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -41,6 +42,17 @@ class MainFilmFragmentAdapter : RecyclerView.Adapter<MainFilmFragmentAdapter.Fil
 
         fun bind(films: FilmFeature) {
             itemView.findViewById<TextView>(R.id.item_film_name).text = films.film.filmName
+            itemView.findViewById<ImageView>(R.id.item_film_image).setImageResource(films.film.filmImage)
+
+            itemView.findViewById<ImageView>(R.id.item_rating_image)
+            itemView.findViewById<TextView>(R.id.item_film_rating).text = films.film.filmRating.toString()
+
+            itemView.findViewById<ImageView>(R.id.item_time_length_image)
+            itemView.findViewById<TextView>(R.id.item_film_time_length).text = "136"
+
+            itemView.findViewById<ImageView>(R.id.item_film_year_image)
+            itemView.findViewById<TextView>(R.id.item_film_year).text = films.film.filmYear.toString()
+
             itemView.setOnClickListener {
                 Toast.makeText(itemView.context, films.film.filmName, Toast.LENGTH_SHORT).show()
             }
