@@ -1,0 +1,40 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_film_container_rv_vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/item_film_image"
+        android:layout_width="120dp"
+        android:layout_height="170dp"
+        android:layout_marginStart="8dp"
+        android:contentDescription="Film Image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/item_film_name"
+        android:layout_width="284dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@id/item_film_image"
+        app:layout_constraintTop_toTopOf="@id/item_film_image"
+        tools:text="Film Name" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/item_film_rating"
+        android:layout_width="284dp"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="@id/item_film_name"
+        app:layout_constraintTop_toBottomOf="@id/item_film_name"
+        tools:text="Film rating" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
