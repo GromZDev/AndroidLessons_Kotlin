@@ -4,4 +4,6 @@ package com.example.kotlin_lesson_1.model
 interface Repository {
     fun getFilmFromServer(): FilmFeature
     fun getFilmFromLocalStorage(): FilmFeature
+    fun getFilmFromLocalStorageAllFilms(): List<FilmFeature>
+    fun getFilmFromLocalStoragePopularFilms(): List<FilmFeature>
 }
