@@ -1,12 +1,15 @@
 package com.example.kotlin_lesson_1.model
 
+import android.os.Parcelable
 import com.example.kotlin_lesson_1.R
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class FilmFeature(
     val film: Film = getDefaultFilm(),
     val description: String,
     val actors: String
-)
+) : Parcelable
 
 fun getDefaultFilm() = Film("Мстители: Война бесконечности", 1, 8.8, 2019, 222)
 
