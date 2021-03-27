@@ -48,7 +48,7 @@ class MainFilmFragmentAdapter : RecyclerView.Adapter<MainFilmFragmentAdapter.Fil
             itemView.findViewById<TextView>(R.id.item_film_rating).text = films.film.filmRating.toString()
 
             itemView.findViewById<ImageView>(R.id.item_time_length_image)
-            itemView.findViewById<TextView>(R.id.item_film_time_length).text = "136"
+            itemView.findViewById<TextView>(R.id.item_film_time_length).text = films.film.filmTime.toString()
 
             itemView.findViewById<ImageView>(R.id.item_film_year_image)
             itemView.findViewById<TextView>(R.id.item_film_year).text = films.film.filmYear.toString()
