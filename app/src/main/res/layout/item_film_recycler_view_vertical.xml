@@ -7,12 +7,13 @@
     android:layout_height="wrap_content"
     android:padding="12dp">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/item_film_image"
         android:layout_width="120dp"
         android:layout_height="170dp"
         android:layout_marginStart="8dp"
         android:contentDescription="@string/film_image"
+        app:shapeAppearanceOverlay="@style/ItemRounded"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
