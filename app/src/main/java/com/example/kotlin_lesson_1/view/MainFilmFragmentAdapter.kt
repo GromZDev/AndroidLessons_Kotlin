@@ -10,7 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlin_lesson_1.R
 import com.example.kotlin_lesson_1.model.FilmFeature
 
-class MainFilmFragmentAdapter : RecyclerView.Adapter<MainFilmFragmentAdapter.FilmViewHolder>() {
+// В адаптер теперь передаем интерфейс слушателя нажатий (из MainFilmFragment).
+// В конце типа стоит знак вопроса, — это говорит о том, что листенер может быть null!
+// Добавляем метод для удаления листенера и вызываем метод листенера через знак вопроса
+class MainFilmFragmentAdapter(
+    private var onItemViewClickListener:
+    MainFilmFragment.OnItemViewClickListener?
+) :
+    RecyclerView.Adapter<MainFilmFragmentAdapter.FilmViewHolder>() {
 
     private var filmsData: List<FilmFeature> = mutableListOf()
 
@@ -37,27 +44,36 @@ class MainFilmFragmentAdapter : RecyclerView.Adapter<MainFilmFragmentAdapter.Fil
         return filmsData.size
     }
 
-// Внутренний класс ViewHolder
+    // Внутренний класс ViewHolder
     inner class FilmViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(films: FilmFeature) {
             itemView.findViewById<TextView>(R.id.item_film_name).text = films.film.filmName
-            itemView.findViewById<ImageView>(R.id.item_film_image).setImageResource(films.film.filmImage)
+            itemView.findViewById<ImageView>(R.id.item_film_image)
+                .setImageResource(films.film.filmImage)
 
             itemView.findViewById<ImageView>(R.id.item_rating_image)
-            itemView.findViewById<TextView>(R.id.item_film_rating).text = films.film.filmRating.toString()
+            itemView.findViewById<TextView>(R.id.item_film_rating).text =
+                films.film.filmRating.toString()
 
             itemView.findViewById<ImageView>(R.id.item_time_length_image)
-            itemView.findViewById<TextView>(R.id.item_film_time_length).text = films.film.filmTime.toString()
+            itemView.findViewById<TextView>(R.id.item_film_time_length).text =
+                films.film.filmTime.toString()
 
             itemView.findViewById<ImageView>(R.id.item_film_year_image)
-            itemView.findViewById<TextView>(R.id.item_film_year).text = films.film.filmYear.toString()
+            itemView.findViewById<TextView>(R.id.item_film_year).text =
+                films.film.filmYear.toString()
 
             itemView.setOnClickListener {
-                Toast.makeText(itemView.context, films.film.filmName, Toast.LENGTH_SHORT).show()
+                onItemViewClickListener?.onItemViewClick(films) // Вызываем слушатель нажатия
             }
         }
 
+    }
+
+    // Чтобы не было утечек памяти (вызываем этот метод адаптера в методе onDestroy фрагмента MainFilmFragment)
+    fun removeListener() {
+        onItemViewClickListener = null
     }
 
 }

@@ -10,16 +10,40 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.kotlin_lesson_1.R
 import com.example.kotlin_lesson_1.databinding.FragmentFilmMainBinding
+import com.example.kotlin_lesson_1.model.FilmFeature
 import com.example.kotlin_lesson_1.viewModel.AppState
 import com.example.kotlin_lesson_1.viewModel.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 
 class MainFilmFragment : Fragment() {
 
+    interface OnItemViewClickListener {
+        fun onItemViewClick(film: FilmFeature)
+    }
+
     private var _binding: FragmentFilmMainBinding? = null
     private val binding get() = _binding!!
     private lateinit var mainFilmsViewModel: MainViewModel
-    private val adapter = MainFilmFragmentAdapter()
+// Теперь в MainFilmFragment’е создаём интерфейс и передаём его в адаптер. Интерфейс создаемчерез
+// ключевое слово object. В самом методе onItemViewClick обращаемся к менеджеру фрагментов
+// через активити и создаём бандл. Добавляем в бандл получаемый парс-класс и открываем новый фрагмент:
+
+    private val adapter = MainFilmFragmentAdapter(object : OnItemViewClickListener {
+        override fun onItemViewClick(film: FilmFeature) {
+            val manager = activity?.supportFragmentManager
+            if (manager != null) {
+                val bundle = Bundle()
+                bundle.putParcelable(FilmDetailFragment.BUNDLE_EXTRA, film)
+                manager.beginTransaction()
+                    .replace(R.id.fragment_container, FilmDetailFragment.newInstance(bundle))
+                    .addToBackStack("")
+                    .commitAllowingStateLoss()
+            }
+        }
+
+    }
+
+    )
     private var isFilmSetAll: Boolean = true
 
     private lateinit var mainView: View
@@ -28,7 +52,7 @@ class MainFilmFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentFilmMainBinding.inflate(inflater, container, false)
         mainView = binding.root
         return mainView
@@ -56,8 +80,12 @@ class MainFilmFragment : Fragment() {
             }
             is AppState.Error -> {
                 binding.mainFragmentLoadingLayout.visibility = View.GONE
-                Snackbar.make(binding.buttonChangeFilmCategory, "6666666", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Reloading Data...") {
+                Snackbar.make(
+                    binding.buttonChangeFilmCategory,
+                    getString(R.string.error),
+                    Snackbar.LENGTH_INDEFINITE
+                )
+                    .setAction(getString(R.string.reloading)) {
                         mainFilmsViewModel.getFilmFromLocalSourceAllFilms()
                     }.show()
             }
@@ -80,7 +108,13 @@ class MainFilmFragment : Fragment() {
         _binding = null
     }
 
-    companion object{
+    companion object {
         fun newInstance() = MainFilmFragment()
+    }
+
+    // Чтобы не было утечек - удаляем листенер из адаптера:
+    override fun onDestroy() {
+        adapter.removeListener()
+        super.onDestroy()
     }
 }
