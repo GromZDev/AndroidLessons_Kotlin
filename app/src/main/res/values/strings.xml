@@ -8,4 +8,5 @@
     <string name="film_year_icon">Film Year Icon</string>
     <string name="error">Error getting Data!</string>
     <string name="reloading">"Reloading Data…"</string>
+    <string name="overlay">Overlay</string>
 </resources>

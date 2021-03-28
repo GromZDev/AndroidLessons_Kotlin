@@ -1,20 +1,17 @@
 package com.example.kotlin_lesson_1.view
 
 
+import android.graphics.Color
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.example.kotlin_lesson_1.viewModel.MainViewModel
-import com.example.kotlin_lesson_1.R
 import com.example.kotlin_lesson_1.databinding.FragmentFilmDetailsBinding
 import com.example.kotlin_lesson_1.model.FilmFeature
-import com.example.kotlin_lesson_1.viewModel.AppState
-import com.google.android.material.snackbar.Snackbar
+import com.example.kotlin_lesson_1.viewModel.MainViewModel
+
 
 class FilmDetailFragment : Fragment() {
 
@@ -25,6 +22,7 @@ class FilmDetailFragment : Fragment() {
 
     companion object {
         const val BUNDLE_EXTRA = "MY_Film"
+
         // Передаем во фрагмент бандл с данными фильма
         fun newInstance(bundle: Bundle): FilmDetailFragment {
             val fragment = FilmDetailFragment()
@@ -66,8 +64,18 @@ class FilmDetailFragment : Fragment() {
     private fun setFilmData(filmData: FilmFeature) {
         binding.twFilmName.text = filmData.film.filmName
         binding.twFilmDescription.text = filmData.description
+        // Сетим скроллинг у описания. + в лэйауте android:scrollbars = "vertical":
+        binding.twFilmDescription.movementMethod = ScrollingMovementMethod()
         binding.twFilmYear.text = filmData.film.filmYear.toString()
         binding.twFilmRating.text = filmData.film.filmRating.toString()
-        binding.iwFilmImage.setImageResource(R.drawable.film_avengers_inf)
+        binding.twFilmTime.text = filmData.film.filmTime.toString()
+
+        binding.iwFilmImage.setImageResource(filmData.film.filmImage)
+        // Затемняем изображение:
+        binding.iwFilmImage.setColorFilter(
+            Color.rgb(123, 123, 123),
+            android.graphics.PorterDuff.Mode.MULTIPLY
+        )
+
     }
 }

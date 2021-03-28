@@ -1,0 +1,12 @@
+<resources>
+
+    <dimen name="filmNameDescFragmentSize">28sp</dimen>
+    <dimen name="filmAttributesDescFragmentSize">24sp</dimen>
+
+    <dimen name="attributesFilmIconsSize">36dp</dimen>
+    <dimen name="attributesFilmIconsMarginDescriptionFragment">20dp</dimen>
+
+    <dimen name="attributesTextFilmLayoutHeight">28dp</dimen>
+
+
+</resources>
