@@ -7,6 +7,8 @@
     <dimen name="attributesFilmIconsMarginDescriptionFragment">20dp</dimen>
 
     <dimen name="attributesTextFilmLayoutHeight">28dp</dimen>
+    <dimen name="floatingButtonMarginMainFilmFragment">16dp</dimen>
+    <dimen name="floatingButtonMainMaxSize">44dp</dimen>
 
 
 </resources>

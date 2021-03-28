@@ -10,5 +10,6 @@
     <color name="item_rv_bg">#606060</color>
     <color name="transparent_color">#00000000</color>
     <color name="detail_fragment_bg">#1C1C1C</color>
+    <color name="main_fragment_bg">#1C1C1C</color>
 
 </resources>

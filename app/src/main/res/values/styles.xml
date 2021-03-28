@@ -38,4 +38,25 @@
         <item name="android:layout_height">@dimen/attributesTextFilmLayoutHeight</item>
     </style>
 
+    <style name="FilmRecyclerVew">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="FButtonMainFilmFragment">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/floatingButtonMarginMainFilmFragment</item>
+        <item name="android:src">@drawable/ic_film_category</item>
+        <item name="maxImageSize">@dimen/floatingButtonMainMaxSize</item>
+    </style>
+
+    <style name="FrameLayoutProgressBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/floatingButtonMarginMainFilmFragment</item>
+
+
+    </style>
+
 </resources>

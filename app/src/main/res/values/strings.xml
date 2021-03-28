@@ -9,4 +9,5 @@
     <string name="error">Error getting Data!</string>
     <string name="reloading">"Reloading Data…"</string>
     <string name="overlay">Overlay</string>
+    <string name="film_category_change_button">Film Category Change Button</string>
 </resources>
