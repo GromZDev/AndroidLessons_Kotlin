@@ -31,7 +31,14 @@ fun getAllFilms(): List<FilmFeature> {
 
 fun getPopularFilms(): List<FilmFeature> {
     return mutableListOf(
-        FilmFeature(Film("Star Wars: Episode IV", 1, 9.1, 2009, 111), "Первый фильм по Железного человека, снятый в уже далеком 2--9 году", "Robert Дауни Jr"),
-        FilmFeature(Film("Star Wars: Episode V", 1, 8.1, 2011, 143), "Фильм про Тора, сына Одина.", "Крис Хемсворт")
+        FilmFeature(Film("Star Wars: Episode IV: Новая надежда", R.drawable.sw_episode_4, 8.6, 1977, 121), FilmDadaDescription().getSW4(), "Марк Хэммил"),
+        FilmFeature(Film("Star Wars: Episode V: Империя наносит ответный удар", R.drawable.sw_episode_5, 8.7, 1980, 124), FilmDadaDescription().getSW5(), "Харрисон Форд"),
+        FilmFeature(Film("Star Wars: Episode VI: Возвращение Джедая", R.drawable.sw_episode_6, 8.3, 1983, 131), FilmDadaDescription().getSW6(), "Кэрри Фишер"),
+        FilmFeature(Film("Star Wars: Episode I: Скрытая угроза", R.drawable.sw_episode_1, 6.5, 1999, 136), FilmDadaDescription().getSW1(), "Лайам Нисон"),
+        FilmFeature(Film("Star Wars: Episode II: Атака клонов", R.drawable.sw_episode_2, 6.6, 2002, 144), FilmDadaDescription().getSW2(), "Юэн Макгрегор"),
+        FilmFeature(Film("Star Wars: Episode III: Месть ситхов", R.drawable.sw_episode_3, 7.5, 2005, 140), FilmDadaDescription().getSW3(), "Сэмюэл Л. Джексон"),
+        FilmFeature(Film("Star Wars: Episode VII: Пробуждение силы", R.drawable.sw_episode_7, 7.9, 2015, 138), FilmDadaDescription().getSW7(), "Дэйзи Ридли"),
+        FilmFeature(Film("Star Wars: Episode VIII: Последние Джедаи", R.drawable.sw_episode_3, 7.1, 2017, 151), FilmDadaDescription().getSW8(), "Марк Хэмилл"),
+        FilmFeature(Film("Star Wars: Episode IX: Скайуокер. Восход", R.drawable.sw_episode_9, 8.2, 2019, 141), FilmDadaDescription().getSW9(), "Дэйзи Ридли")
     )
 }
