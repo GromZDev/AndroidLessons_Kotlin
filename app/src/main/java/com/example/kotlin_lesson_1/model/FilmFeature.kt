@@ -38,7 +38,7 @@ fun getPopularFilms(): List<FilmFeature> {
         FilmFeature(Film("Star Wars: Episode II: Атака клонов", R.drawable.sw_episode_2, 6.6, 2002, 144), FilmDadaDescription().getSW2(), "Юэн Макгрегор"),
         FilmFeature(Film("Star Wars: Episode III: Месть ситхов", R.drawable.sw_episode_3, 7.5, 2005, 140), FilmDadaDescription().getSW3(), "Сэмюэл Л. Джексон"),
         FilmFeature(Film("Star Wars: Episode VII: Пробуждение силы", R.drawable.sw_episode_7, 7.9, 2015, 138), FilmDadaDescription().getSW7(), "Дэйзи Ридли"),
-        FilmFeature(Film("Star Wars: Episode VIII: Последние Джедаи", R.drawable.sw_episode_3, 7.1, 2017, 151), FilmDadaDescription().getSW8(), "Марк Хэмилл"),
+        FilmFeature(Film("Star Wars: Episode VIII: Последние Джедаи", R.drawable.sw_episode_8, 7.1, 2017, 151), FilmDadaDescription().getSW8(), "Марк Хэмилл"),
         FilmFeature(Film("Star Wars: Episode IX: Скайуокер. Восход", R.drawable.sw_episode_9, 8.2, 2019, 141), FilmDadaDescription().getSW9(), "Дэйзи Ридли")
     )
 }
