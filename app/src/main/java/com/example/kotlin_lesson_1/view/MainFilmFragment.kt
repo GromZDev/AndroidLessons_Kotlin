@@ -6,14 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlin_lesson_1.R
 import com.example.kotlin_lesson_1.databinding.FragmentFilmMainBinding
+import com.example.kotlin_lesson_1.model.category_RV.FilmCategoryData
 import com.example.kotlin_lesson_1.model.FilmFeature
+import com.example.kotlin_lesson_1.view.category_RV.FilmCategoryAdapter
 import com.example.kotlin_lesson_1.viewModel.AppState
 import com.example.kotlin_lesson_1.viewModel.MainViewModel
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_film_main.*
 
 class MainFilmFragment : Fragment() {
 
@@ -67,12 +70,20 @@ class MainFilmFragment : Fragment() {
         mainFilmsViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         mainFilmsViewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
         mainFilmsViewModel.getFilmFromLocalSourceAllFilms()
+
+   // ================================
+      //  initCategoryRecyclerView()
+        //=================================
+
+
     }
 
     private fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Success -> {
                 binding.mainFragmentLoadingLayout.visibility = View.GONE
+                initCategoryRecyclerView()
+
                 adapter.setFilms(appState.cinemaData)
             }
             is AppState.Loading -> {
@@ -116,5 +127,14 @@ class MainFilmFragment : Fragment() {
     override fun onDestroy() {
         adapter.removeListener()
         super.onDestroy()
+    }
+
+    private fun initCategoryRecyclerView() {
+        var recyclerViewCategory: RecyclerView = film_recyclerView_category
+
+        recyclerViewCategory.apply {
+            //    layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
+            adapter = FilmCategoryAdapter(FilmCategoryData.getParents(5))
+        }
     }
 }
