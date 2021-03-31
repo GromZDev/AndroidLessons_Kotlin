@@ -130,7 +130,7 @@ class MainFilmFragment : Fragment() {
     }
 
     private fun initCategoryRecyclerView() {
-        var recyclerViewCategory: RecyclerView = film_recyclerView_category
+        val recyclerViewCategory: RecyclerView = film_recyclerView_category
 
         recyclerViewCategory.apply {
             //    layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
