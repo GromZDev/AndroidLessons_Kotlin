@@ -71,8 +71,8 @@ class MainFilmFragment : Fragment() {
         mainFilmsViewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
         mainFilmsViewModel.getFilmFromLocalSourceAllFilms()
 
-   // ================================
-      //  initCategoryRecyclerView()
+        // ================================
+        //  initCategoryRecyclerView()
         //=================================
 
 
@@ -82,12 +82,13 @@ class MainFilmFragment : Fragment() {
         when (appState) {
             is AppState.Success -> {
                 binding.mainFragmentLoadingLayout.visibility = View.GONE
+                binding.filmRecyclerViewVertical.visibility = View.VISIBLE
                 initCategoryRecyclerView()
-
                 adapter.setFilms(appState.cinemaData)
             }
             is AppState.Loading -> {
                 binding.mainFragmentLoadingLayout.visibility = View.VISIBLE
+                binding.filmRecyclerViewVertical.visibility = View.GONE
             }
             is AppState.Error -> {
                 binding.mainFragmentLoadingLayout.visibility = View.GONE
