@@ -29,8 +29,9 @@
             tools:text="Text View" />
     </FrameLayout>
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/film_category_imageView"
+        app:shapeAppearanceOverlay="@style/ItemSpecificRounded"
         android:layout_width="110dp"
         android:layout_height="156dp"
         android:contentDescription="TODO"
