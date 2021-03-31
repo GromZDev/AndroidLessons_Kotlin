@@ -11,4 +11,5 @@
     <string name="overlay">Overlay</string>
     <string name="film_category_change_button">Film Category Change Button</string>
     <string name="all_films">All Films:</string>
+    <string name="min">мин</string>
 </resources>

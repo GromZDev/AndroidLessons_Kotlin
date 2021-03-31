@@ -1,11 +1,10 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/film_details_fragment"
-    android:background="@color/detail_fragment_bg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/detail_fragment_bg"
     android:orientation="vertical">
 
     <ImageView
@@ -18,8 +17,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        style="@style/FilmNameDescriptionFragment"
         android:id="@+id/tw_film_name"
+        style="@style/FilmNameDescriptionFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -31,60 +30,73 @@
         tools:text="Film Name" />
 
     <ImageView
-        style="@style/FilmAttributesIconDescriptionFragment"
         android:id="@+id/rating_image_description_fragment"
+        style="@style/FilmAttributesIconDescriptionFragment"
         android:background="@drawable/ic_film_rating"
         android:contentDescription="@string/film_rating_image"
         app:layout_constraintBottom_toTopOf="@+id/tw_film_description"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        style="@style/FilmAttributesTextDescriptionFragment"
         android:id="@+id/tw_film_rating"
+        style="@style/FilmAttributesTextDescriptionFragment"
         app:layout_constraintStart_toEndOf="@id/rating_image_description_fragment"
         app:layout_constraintTop_toTopOf="@id/rating_image_description_fragment"
         tools:text="Film Rating" />
 
     <ImageView
-        style="@style/FilmAttributesIconDescriptionFragment"
         android:id="@+id/time_length_image_description_fragment"
+        style="@style/FilmAttributesIconDescriptionFragment"
         android:background="@drawable/ic_film_time_length"
         android:contentDescription="@string/film_rating_image"
         app:layout_constraintBottom_toTopOf="@id/rating_image_description_fragment"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        style="@style/FilmAttributesTextDescriptionFragment"
         android:id="@+id/tw_film_time"
+        style="@style/FilmAttributesTextDescriptionFragment"
         app:layout_constraintStart_toEndOf="@id/time_length_image_description_fragment"
         app:layout_constraintTop_toTopOf="@id/time_length_image_description_fragment"
         tools:text="Film Time" />
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/item_film_time_word"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/min"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/tw_film_time"
+        app:layout_constraintTop_toTopOf="@id/tw_film_time"
+        tools:text="мин" />
 
     <ImageView
-        style="@style/FilmAttributesIconDescriptionFragment"
         android:id="@+id/film_year_image_description_fragment"
+        style="@style/FilmAttributesIconDescriptionFragment"
         android:background="@drawable/ic_film_year"
         android:contentDescription="@string/film_year_icon"
         app:layout_constraintBottom_toTopOf="@id/time_length_image_description_fragment"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        style="@style/FilmAttributesTextDescriptionFragment"
         android:id="@+id/tw_film_year"
+        style="@style/FilmAttributesTextDescriptionFragment"
         app:layout_constraintStart_toEndOf="@id/film_year_image_description_fragment"
         app:layout_constraintTop_toTopOf="@id/film_year_image_description_fragment"
         tools:text="Film Year" />
 
     <TextView
         android:id="@+id/tw_film_description"
-        android:scrollbars = "vertical"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:textColor="@color/white"
+        android:layout_height="match_parent"
         android:layout_marginTop="500dp"
+        android:layout_marginBottom="16dp"
+        android:scrollbars="vertical"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/iw_film_image"
