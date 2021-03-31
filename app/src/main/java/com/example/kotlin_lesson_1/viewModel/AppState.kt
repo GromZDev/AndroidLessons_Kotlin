@@ -1,11 +1,11 @@
 package com.example.kotlin_lesson_1.viewModel
 
+import com.example.kotlin_lesson_1.model.FilmFeature
+
 // Это класс, который хранит состояния приложения
 sealed class AppState {
-    data class Success (val cinemaData: Any): AppState() // приложение работает, данные отображаются
-    data class Error (val error: Throwable): AppState() // приложение находится в состоянии загрузки данных
-    object Loading: AppState() // приложении произошла какая-то ошибка
+    data class Success (val cinemaData: List<FilmFeature>): AppState()
+    data class Error (val error: Throwable): AppState()
+    object Loading: AppState()
 
-//Классы Success и Error содержат данные, поэтому их можно сделать data-классами. Loading не
-//содержит данных, его можно сделать object’ом
 }

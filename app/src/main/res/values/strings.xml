@@ -1,7 +1,15 @@
 <resources>
-    <string name="app_name">Kotlin_FilmApp_Lesson_2</string>
+    <string name="app_name">Kotlin_FilmApp_Lesson_3</string>
     <string name="film_image">Film Image</string>
     <string name="receiving_data">Receiving Data...</string>
     <string name="year">Год:</string>
     <string name="rating">Оценка:</string>
+    <string name="film_rating_image">Film Rating Image</string>
+    <string name="film_year_icon">Film Year Icon</string>
+    <string name="error">Error getting Data!</string>
+    <string name="reloading">"Reloading Data…"</string>
+    <string name="overlay">Overlay</string>
+    <string name="film_category_change_button">Film Category Change Button</string>
+    <string name="all_films">All Films:</string>
+    <string name="min">мин</string>
 </resources>

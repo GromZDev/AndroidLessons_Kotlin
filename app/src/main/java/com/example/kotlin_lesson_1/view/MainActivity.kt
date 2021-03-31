@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
                 .beginTransaction()
                 .replace(
                     R.id.fragment_container,
-                    MainFragment.newInstance()
+                    MainFilmFragment.newInstance()
                 )
                 .addToBackStack(null)
                 .commit()
