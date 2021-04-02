@@ -90,6 +90,12 @@ class MainFilmFragment : Fragment() {
                 binding.twPartName.visibility = View.VISIBLE
                 initCategoryRecyclerView()
                 adapter.setFilms(appState.cinemaData)
+
+                binding.mainFragmentView.showSnackBarForSuccess(
+                    getString(R.string.successData),
+                    getString(R.string.reloadAgain),
+                    {mainFilmsViewModel.getFilmFromLocalSourceAllFilms()}
+                )
             }
             is AppState.Loading -> {
                 binding.mainFragmentLoadingLayout.visibility = View.VISIBLE
@@ -98,14 +104,19 @@ class MainFilmFragment : Fragment() {
             }
             is AppState.Error -> {
                 binding.mainFragmentLoadingLayout.visibility = View.GONE
-                Snackbar.make(
-                    binding.buttonChangeFilmCategory,
+                binding.mainFragmentView.showSnackBar(
                     getString(R.string.error),
-                    Snackbar.LENGTH_INDEFINITE
+                    getString(R.string.reloading),
+                    {mainFilmsViewModel.getFilmFromLocalSourceAllFilms()}
                 )
-                    .setAction(getString(R.string.reloading)) {
-                        mainFilmsViewModel.getFilmFromLocalSourceAllFilms()
-                    }.show()
+//                Snackbar.make(
+//                    binding.buttonChangeFilmCategory,
+//                    getString(R.string.error),
+//                    Snackbar.LENGTH_INDEFINITE
+//                )
+//                    .setAction(getString(R.string.reloading)) {
+//                        mainFilmsViewModel.getFilmFromLocalSourceAllFilms()
+//                    }.show()
             }
         }
     }
@@ -144,4 +155,13 @@ class MainFilmFragment : Fragment() {
             adapter = FilmCategoryAdapter(FilmCategoryData.getParents(5))
         }
     }
+
+    private fun View.showSnackBar (
+        text: String, actionText: String, action: (View) -> Unit, length: Int = Snackbar.LENGTH_INDEFINITE
+    ) {Snackbar.make(this, text, length).setAction(actionText, action).show()}
+
+    private fun View.showSnackBarForSuccess (
+        text: String, actionText: String, action: (View) -> Unit, length: Int = Snackbar.LENGTH_LONG
+    ) {Snackbar.make(this, text, length).setAction(actionText, action).show()}
+
 }
