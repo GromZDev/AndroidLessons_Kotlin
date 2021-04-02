@@ -26,10 +26,13 @@ class MainFilmFragment : Fragment() {
 
     private var _binding: FragmentFilmMainBinding? = null
     private val binding get() = _binding!!
-    private lateinit var mainFilmsViewModel: MainViewModel
-// Теперь в MainFilmFragment’е создаём интерфейс и передаём его в адаптер. Интерфейс создаемчерез
-// ключевое слово object. В самом методе onItemViewClick обращаемся к менеджеру фрагментов
-// через активити и создаём бандл. Добавляем в бандл получаемый парс-класс и открываем новый фрагмент:
+
+    // viewModel создаем через делегирование посредством by через функцию lazy.
+    // Модель будет создана только тогда, когда к ней впервые обратятся, или не будет создана,
+    // если к ней так никто и не обратится. Экономим ресурсы!
+    private val mainFilmsViewModel: MainViewModel by lazy {
+        ViewModelProvider(this).get(MainViewModel::class.java)
+    }
 
     private val adapter = MainFilmFragmentAdapter(object : OnItemViewClickListener {
         override fun onItemViewClick(film: FilmFeature) {
@@ -68,7 +71,7 @@ class MainFilmFragment : Fragment() {
         binding.buttonChangeFilmCategory.setOnClickListener {
             changeFilmDataInMainFragment()
         }
-        mainFilmsViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
         mainFilmsViewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
         mainFilmsViewModel.getFilmFromLocalSourceAllFilms()
 
@@ -114,8 +117,8 @@ class MainFilmFragment : Fragment() {
         } else {
             mainFilmsViewModel.getFilmFromLocalSourcePopularFilms()
             binding.buttonChangeFilmCategory.setImageResource(R.drawable.ic_popular_films)
-        }
-        isFilmSetAll = !isFilmSetAll
+        }.also { isFilmSetAll = !isFilmSetAll }
+
     }
 
     override fun onDestroyView() {
