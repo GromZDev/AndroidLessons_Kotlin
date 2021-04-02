@@ -34,7 +34,8 @@ class MainFilmFragment : Fragment() {
     private val adapter = MainFilmFragmentAdapter(object : OnItemViewClickListener {
         override fun onItemViewClick(film: FilmFeature) {
             val manager = activity?.supportFragmentManager
-            if (manager != null) {
+            // Если manager не null...(let)
+            manager?.let{
                 val bundle = Bundle()
                 bundle.putParcelable(FilmDetailFragment.BUNDLE_EXTRA, film)
                 manager.beginTransaction()
