@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -92,7 +93,9 @@ class MainFilmFragment : Fragment() {
                 adapter.setFilms(appState.cinemaData)
 
                 binding.mainFragmentView.showSnackBarForSuccess(
-                    getString(R.string.successData)
+                    getString(R.string.successData), 5000,
+                    {setColorSbBG()},
+                    {setTextSbColor(ContextCompat.getColor(context, R.color.item_rv_bg))}
                 )
             }
             is AppState.Loading -> {
@@ -158,8 +161,23 @@ class MainFilmFragment : Fragment() {
         text: String, actionText: String, action: (View) -> Unit, length: Int = Snackbar.LENGTH_INDEFINITE
     ) {Snackbar.make(this, text, length).setAction(actionText, action).show()}
 
+// ======== Сетим кастомные Экстеншены для SnackBar при Success: ===========
     private fun View.showSnackBarForSuccess (
-        text: String, length: Int = Snackbar.LENGTH_LONG
-    ) {Snackbar.make(this, text, length).show()}
+        text: String, length: Int, bg: Snackbar.() -> Unit, col: Snackbar.() -> Unit
+    ) {
+        val sBar = Snackbar.make(this, text, length)
+            sBar.bg()
+            sBar.col()
+            sBar.show()
+    }
 
+    private fun Snackbar.setColorSbBG() {
+        setBackgroundTint(ContextCompat.getColor(context, R.color.main_fragment_tw_part_color))
+    }
+
+    private fun Snackbar.setTextSbColor(color: Int) {
+        setTextColor(color)
+    }
+// =========================================================================
 }
+
