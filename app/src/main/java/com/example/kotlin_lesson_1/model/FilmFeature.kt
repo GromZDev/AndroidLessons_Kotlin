@@ -14,8 +14,7 @@ data class FilmFeature(
 fun getDefaultFilm() = Film("Мстители: Война бесконечности", 1, 8.8, 2019, 222)
 
 // Создал методы, возвращающие массивы фильмов:
-fun getAllFilms(): List<FilmFeature> {
-    return mutableListOf(
+fun getAllFilms() = mutableListOf(
         FilmFeature(Film("Железный человек", R.drawable.iron_man, 7.9, 2008, 121), FilmDadaDescription().getIronManDesc(), "Robert Дауни Jr"),
         FilmFeature(Film("Тор: царство тьмы", R.drawable.thor_2_dark_world, 7.1, 2013, 108), FilmDadaDescription().getThor2DarkWorldDesc(), "Крис Хемсворт"),
         FilmFeature(Film("Мстители: Война бесконечности", R.drawable.film_avengers_inf, 8.5, 2018, 149), FilmDadaDescription().getAvengersInfWarDesc(), "Крис Хемсворт"),
@@ -27,10 +26,8 @@ fun getAllFilms(): List<FilmFeature> {
         FilmFeature(Film("Мстители: эра альтрона", R.drawable.avengers_2_age_of_ulthron, 7.4, 2015, 141), FilmDadaDescription().getAvengers2UltDesc(), "Крис Хемсворт"),
         FilmFeature(Film("Мстители. Финал", R.drawable.film_avengers_end_game, 8.4, 2019, 181), FilmDadaDescription().getAvengersEndGameDesc(), "Крис Хемсворт")
     )
-}
 
-fun getPopularFilms(): List<FilmFeature> {
-    return mutableListOf(
+fun getPopularFilms() = mutableListOf(
         FilmFeature(Film("Star Wars: Episode IV: Новая надежда", R.drawable.sw_episode_4, 8.6, 1977, 121), FilmDadaDescription().getSW4(), "Марк Хэммил"),
         FilmFeature(Film("Star Wars: Episode V: Империя наносит ответный удар", R.drawable.sw_episode_5, 8.7, 1980, 124), FilmDadaDescription().getSW5(), "Харрисон Форд"),
         FilmFeature(Film("Star Wars: Episode VI: Возвращение Джедая", R.drawable.sw_episode_6, 8.3, 1983, 131), FilmDadaDescription().getSW6(), "Кэрри Фишер"),
@@ -41,4 +38,3 @@ fun getPopularFilms(): List<FilmFeature> {
         FilmFeature(Film("Star Wars: Episode VIII: Последние Джедаи", R.drawable.sw_episode_8, 7.1, 2017, 151), FilmDadaDescription().getSW8(), "Марк Хэмилл"),
         FilmFeature(Film("Star Wars: Episode IX: Скайуокер. Восход", R.drawable.sw_episode_9, 8.2, 2019, 141), FilmDadaDescription().getSW9(), "Дэйзи Ридли")
     )
-}

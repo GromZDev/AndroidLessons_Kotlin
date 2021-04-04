@@ -10,12 +10,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.kotlin_lesson_1.databinding.FragmentFilmDetailsBinding
 import com.example.kotlin_lesson_1.model.FilmFeature
-import com.example.kotlin_lesson_1.viewModel.MainViewModel
 
 
 class FilmDetailFragment : Fragment() {
 
-    private lateinit var viewModel: MainViewModel
     private var _binding: FragmentFilmDetailsBinding? = null // Наш binding class этого лэйаута
     private val binding get() = _binding!!
     private lateinit var mainView: View
@@ -52,12 +50,8 @@ class FilmDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val film = arguments?.getParcelable<FilmFeature>(BUNDLE_EXTRA)
-
-        if (film != null) {
-            setFilmData(film)
-        }
-
+            arguments?.getParcelable<FilmFeature>(BUNDLE_EXTRA)?.let { filmFeature ->
+                filmFeature.film.also { setFilmData(filmFeature) } }
     }
 
 

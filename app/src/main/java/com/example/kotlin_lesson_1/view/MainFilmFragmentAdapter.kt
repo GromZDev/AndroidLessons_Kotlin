@@ -29,12 +29,11 @@ class MainFilmFragmentAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): MainFilmFragmentAdapter.FilmViewHolder {
-        return FilmViewHolder(
+    ): MainFilmFragmentAdapter.FilmViewHolder = FilmViewHolder(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_film_recycler_view_vertical, parent, false) as View
         )
-    }
+
 
     override fun onBindViewHolder(holder: MainFilmFragmentAdapter.FilmViewHolder, position: Int) {
         holder.bind(filmsData[position])

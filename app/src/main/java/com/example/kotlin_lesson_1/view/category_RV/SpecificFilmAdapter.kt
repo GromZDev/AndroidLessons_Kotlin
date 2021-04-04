@@ -32,9 +32,8 @@ class SpecificFilmAdapter(
         holder.bind(specificFilm[position])
     }
 
-    override fun getItemCount(): Int {
-        return specificFilm.size
-    }
+    override fun getItemCount(): Int = specificFilm.size
+
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var textView: TextView = itemView.child_textView

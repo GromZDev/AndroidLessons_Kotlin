@@ -70,9 +70,8 @@ class FilmCategoryAdapter(private val specificListCategory: List<FilmSpecificLis
 
     }
 
-    override fun getItemCount(): Int {
-        return specificListCategory.size
-    }
+    override fun getItemCount(): Int = specificListCategory.size
+
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val recyclerView: RecyclerView = itemView.rv_child

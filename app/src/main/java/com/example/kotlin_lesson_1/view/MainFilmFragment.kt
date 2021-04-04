@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -26,15 +27,19 @@ class MainFilmFragment : Fragment() {
 
     private var _binding: FragmentFilmMainBinding? = null
     private val binding get() = _binding!!
-    private lateinit var mainFilmsViewModel: MainViewModel
-// Теперь в MainFilmFragment’е создаём интерфейс и передаём его в адаптер. Интерфейс создаемчерез
-// ключевое слово object. В самом методе onItemViewClick обращаемся к менеджеру фрагментов
-// через активити и создаём бандл. Добавляем в бандл получаемый парс-класс и открываем новый фрагмент:
+
+    // viewModel создаем через делегирование посредством by через функцию lazy.
+    // Модель будет создана только тогда, когда к ней впервые обратятся, или не будет создана,
+    // если к ней так никто и не обратится. Экономим ресурсы!
+    private val mainFilmsViewModel: MainViewModel by lazy {
+        ViewModelProvider(this).get(MainViewModel::class.java)
+    }
 
     private val adapter = MainFilmFragmentAdapter(object : OnItemViewClickListener {
         override fun onItemViewClick(film: FilmFeature) {
             val manager = activity?.supportFragmentManager
-            if (manager != null) {
+            // Если manager не null...(let)
+            manager?.let{
                 val bundle = Bundle()
                 bundle.putParcelable(FilmDetailFragment.BUNDLE_EXTRA, film)
                 manager.beginTransaction()
@@ -67,7 +72,7 @@ class MainFilmFragment : Fragment() {
         binding.buttonChangeFilmCategory.setOnClickListener {
             changeFilmDataInMainFragment()
         }
-        mainFilmsViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
         mainFilmsViewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
         mainFilmsViewModel.getFilmFromLocalSourceAllFilms()
 
@@ -86,6 +91,12 @@ class MainFilmFragment : Fragment() {
                 binding.twPartName.visibility = View.VISIBLE
                 initCategoryRecyclerView()
                 adapter.setFilms(appState.cinemaData)
+
+                binding.mainFragmentView.showSnackBarForSuccess(
+                    getString(R.string.successData), 5000,
+                    {setColorSbBG()},
+                    {setTextSbColor(ContextCompat.getColor(context, R.color.item_rv_bg))}
+                )
             }
             is AppState.Loading -> {
                 binding.mainFragmentLoadingLayout.visibility = View.VISIBLE
@@ -94,14 +105,19 @@ class MainFilmFragment : Fragment() {
             }
             is AppState.Error -> {
                 binding.mainFragmentLoadingLayout.visibility = View.GONE
-                Snackbar.make(
-                    binding.buttonChangeFilmCategory,
+                binding.mainFragmentView.showSnackBar(
                     getString(R.string.error),
-                    Snackbar.LENGTH_INDEFINITE
+                    getString(R.string.reloading),
+                    {mainFilmsViewModel.getFilmFromLocalSourceAllFilms()}
                 )
-                    .setAction(getString(R.string.reloading)) {
-                        mainFilmsViewModel.getFilmFromLocalSourceAllFilms()
-                    }.show()
+//                Snackbar.make(
+//                    binding.buttonChangeFilmCategory,
+//                    getString(R.string.error),
+//                    Snackbar.LENGTH_INDEFINITE
+//                )
+//                    .setAction(getString(R.string.reloading)) {
+//                        mainFilmsViewModel.getFilmFromLocalSourceAllFilms()
+//                    }.show()
             }
         }
     }
@@ -113,8 +129,8 @@ class MainFilmFragment : Fragment() {
         } else {
             mainFilmsViewModel.getFilmFromLocalSourcePopularFilms()
             binding.buttonChangeFilmCategory.setImageResource(R.drawable.ic_popular_films)
-        }
-        isFilmSetAll = !isFilmSetAll
+        }.also { isFilmSetAll = !isFilmSetAll }
+
     }
 
     override fun onDestroyView() {
@@ -140,4 +156,28 @@ class MainFilmFragment : Fragment() {
             adapter = FilmCategoryAdapter(FilmCategoryData.getParents(5))
         }
     }
+
+    private fun View.showSnackBar (
+        text: String, actionText: String, action: (View) -> Unit, length: Int = Snackbar.LENGTH_INDEFINITE
+    ) {Snackbar.make(this, text, length).setAction(actionText, action).show()}
+
+// ======== Сетим кастомные Экстеншены для SnackBar при Success: ===========
+    private fun View.showSnackBarForSuccess (
+        text: String, length: Int, bg: Snackbar.() -> Unit, col: Snackbar.() -> Unit
+    ) {
+        val sBar = Snackbar.make(this, text, length)
+            sBar.bg()
+            sBar.col()
+            sBar.show()
+    }
+
+    private fun Snackbar.setColorSbBG() {
+        setBackgroundTint(ContextCompat.getColor(context, R.color.main_fragment_tw_part_color))
+    }
+
+    private fun Snackbar.setTextSbColor(color: Int) {
+        setTextColor(color)
+    }
+// =========================================================================
 }
+
