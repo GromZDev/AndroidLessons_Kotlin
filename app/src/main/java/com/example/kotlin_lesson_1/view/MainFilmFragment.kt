@@ -92,9 +92,7 @@ class MainFilmFragment : Fragment() {
                 adapter.setFilms(appState.cinemaData)
 
                 binding.mainFragmentView.showSnackBarForSuccess(
-                    getString(R.string.successData),
-                    getString(R.string.reloadAgain),
-                    {mainFilmsViewModel.getFilmFromLocalSourceAllFilms()}
+                    getString(R.string.successData)
                 )
             }
             is AppState.Loading -> {
@@ -161,7 +159,7 @@ class MainFilmFragment : Fragment() {
     ) {Snackbar.make(this, text, length).setAction(actionText, action).show()}
 
     private fun View.showSnackBarForSuccess (
-        text: String, actionText: String, action: (View) -> Unit, length: Int = Snackbar.LENGTH_LONG
-    ) {Snackbar.make(this, text, length).setAction(actionText, action).show()}
+        text: String, length: Int = Snackbar.LENGTH_LONG
+    ) {Snackbar.make(this, text, length).show()}
 
 }
