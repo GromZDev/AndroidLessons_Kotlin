@@ -9,17 +9,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (savedInstanceState == null) {
+        savedInstanceState.let {
             supportFragmentManager
                 .beginTransaction()
                 .replace(
                     R.id.fragment_container,
                     MainFilmFragment.newInstance()
                 )
-                .addToBackStack(null)
                 .commit()
         }
-
-
     }
 }
