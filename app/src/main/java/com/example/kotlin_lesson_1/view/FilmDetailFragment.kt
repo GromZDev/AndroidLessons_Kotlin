@@ -2,21 +2,39 @@ package com.example.kotlin_lesson_1.view
 
 
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.method.ScrollingMovementMethod
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.example.kotlin_lesson_1.databinding.FragmentFilmDetailsBinding
 import com.example.kotlin_lesson_1.model.FilmFeature
+import com.example.kotlin_lesson_1.model.dto.ReceivedDTO
+import com.example.kotlin_lesson_1.model.getDefaultFilm
+import com.google.gson.Gson
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.lang.Exception
+import java.net.MalformedURLException
+import java.net.URL
+import java.util.stream.Collectors
+import javax.net.ssl.HttpsURLConnection
 
+private const val API_KEY = "637d4ef9cabbc5ece262cf072b938f1b"
 
 class FilmDetailFragment : Fragment() {
 
     private var _binding: FragmentFilmDetailsBinding? = null // Наш binding class этого лэйаута
     private val binding get() = _binding!!
     private lateinit var mainView: View
+
+    private lateinit var filmsBundle: FilmFeature
 
     companion object {
         const val BUNDLE_EXTRA = "MY_Film"
@@ -46,12 +64,16 @@ class FilmDetailFragment : Fragment() {
         _binding = null
     }
 
-
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-            arguments?.getParcelable<FilmFeature>(BUNDLE_EXTRA)?.let { filmFeature ->
-                filmFeature.film.also { setFilmData(filmFeature) } }
+//            arguments?.getParcelable<FilmFeature>(BUNDLE_EXTRA)?.let { filmFeature ->
+//                filmFeature.film.also { setFilmData(filmFeature) } }
+
+    filmsBundle = arguments?.getParcelable(BUNDLE_EXTRA) ?: FilmFeature(getDefaultFilm(), "Default", "Default")
+    loadFilm()
+
     }
 
 
@@ -71,5 +93,64 @@ class FilmDetailFragment : Fragment() {
             android.graphics.PorterDuff.Mode.MULTIPLY
         )
 
+    }
+
+//======================================================
+
+    private fun showFilmsDataFromTMDB(filmDTO: ReceivedDTO){
+        with(binding){
+          //  filmDetailsFragment.visibility = View.VISIBLE
+            val film = filmsBundle.film
+            binding.twFilmName.text = filmDTO.original_title
+            binding.twFilmYear.text = filmDTO.release_date.toString()
+            binding.twFilmRating.text = filmDTO.vote_average.toString()
+            binding.twFilmDescription.text = filmDTO.overview.toString()
+            binding.twFilmTime.text = filmDTO.runtime.toString()
+
+            // Остальные поля берём штатные:
+            binding.iwFilmImage.setImageResource(film.filmImage)
+            binding.iwFilmImage.setColorFilter(
+                Color.rgb(123, 123, 123),
+                android.graphics.PorterDuff.Mode.MULTIPLY
+            )
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun loadFilm(){
+        try {
+            val uri = URL("https://api.themoviedb.org/3/movie/157336?api_key=$API_KEY")
+            val handler = Handler(Looper.getMainLooper())
+            Thread {
+                lateinit var urlConnection: HttpsURLConnection
+                try {
+                    urlConnection = uri.openConnection() as HttpsURLConnection
+                    urlConnection.requestMethod = "GET"
+                 //   urlConnection.addRequestProperty("original_title", API_KEY)
+                    urlConnection.readTimeout = 8000
+
+                    val bufferedReader = BufferedReader(InputStreamReader(urlConnection.inputStream))
+
+
+                    val filmDTO: ReceivedDTO = Gson().fromJson(getLines(bufferedReader), ReceivedDTO::class.java)
+                    handler.post { showFilmsDataFromTMDB(filmDTO) }
+                } catch (e: Exception) {
+                    Log.d("Some", "Fail in connection bro!", e)
+                    e.printStackTrace()
+                    //todo обработать ошибку
+                } finally {
+                    urlConnection.disconnect()
+                }
+            }.start()
+        } catch (e: MalformedURLException) {
+            Log.d("Again", "Failure in URL bro!", e)
+            e.printStackTrace()
+            //todo обработать ошибку
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun getLines(bufferedReader: BufferedReader): String {
+        return bufferedReader.lines().collect(Collectors.joining("\n"))
     }
 }
