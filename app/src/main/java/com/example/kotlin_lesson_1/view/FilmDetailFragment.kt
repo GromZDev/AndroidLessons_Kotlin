@@ -36,6 +36,18 @@ class FilmDetailFragment : Fragment() {
 
     private lateinit var filmsBundle: FilmFeature
 
+    private val onLoaderListener: FilmLoader.FilmLoaderListener =
+        object : FilmLoader.FilmLoaderListener {
+            override fun onLoaded(receivedDTO: ReceivedDTO) {
+                showFilmsDataFromTMDB(receivedDTO)
+            }
+
+            override fun onFailed(throwable: Throwable) {
+                //todo обработать ошибку
+            }
+
+        }
+
     companion object {
         const val BUNDLE_EXTRA = "MY_Film"
 
@@ -71,9 +83,14 @@ class FilmDetailFragment : Fragment() {
 //            arguments?.getParcelable<FilmFeature>(BUNDLE_EXTRA)?.let { filmFeature ->
 //                filmFeature.film.also { setFilmData(filmFeature) } }
 
-    filmsBundle = arguments?.getParcelable(BUNDLE_EXTRA) ?: FilmFeature(getDefaultFilm(), "Default", "Default")
-    loadFilm()
+        filmsBundle = arguments?.getParcelable(BUNDLE_EXTRA) ?: FilmFeature(
+            getDefaultFilm(),
+            "Default",
+            "Default"
+        )
 
+        val filmLoader = FilmLoader(onLoaderListener)
+        filmLoader.loadFilm()
     }
 
 
@@ -95,11 +112,11 @@ class FilmDetailFragment : Fragment() {
 
     }
 
-//======================================================
 
-    private fun showFilmsDataFromTMDB(filmDTO: ReceivedDTO){
-        with(binding){
-          //  filmDetailsFragment.visibility = View.VISIBLE
+//================== Сетим загружаемые данные во вьюхе ==================
+    private fun showFilmsDataFromTMDB(filmDTO: ReceivedDTO) {
+        with(binding) {
+            //  filmDetailsFragment.visibility = View.VISIBLE
             val film = filmsBundle.film
             binding.twFilmName.text = filmDTO.original_title
             binding.twFilmYear.text = filmDTO.release_date.toString()
@@ -116,41 +133,5 @@ class FilmDetailFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    private fun loadFilm(){
-        try {
-            val uri = URL("https://api.themoviedb.org/3/movie/157336?api_key=$API_KEY")
-            val handler = Handler(Looper.getMainLooper())
-            Thread {
-                lateinit var urlConnection: HttpsURLConnection
-                try {
-                    urlConnection = uri.openConnection() as HttpsURLConnection
-                    urlConnection.requestMethod = "GET"
-                 //   urlConnection.addRequestProperty("original_title", API_KEY)
-                    urlConnection.readTimeout = 8000
 
-                    val bufferedReader = BufferedReader(InputStreamReader(urlConnection.inputStream))
-
-
-                    val filmDTO: ReceivedDTO = Gson().fromJson(getLines(bufferedReader), ReceivedDTO::class.java)
-                    handler.post { showFilmsDataFromTMDB(filmDTO) }
-                } catch (e: Exception) {
-                    Log.d("Some", "Fail in connection bro!", e)
-                    e.printStackTrace()
-                    //todo обработать ошибку
-                } finally {
-                    urlConnection.disconnect()
-                }
-            }.start()
-        } catch (e: MalformedURLException) {
-            Log.d("Again", "Failure in URL bro!", e)
-            e.printStackTrace()
-            //todo обработать ошибку
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.N)
-    private fun getLines(bufferedReader: BufferedReader): String {
-        return bufferedReader.lines().collect(Collectors.joining("\n"))
-    }
 }
