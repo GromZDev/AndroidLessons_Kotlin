@@ -15,3 +15,5 @@
 local.properties
 compiler.xml
 /.idea/misc.xml
+misc.xml
+apikey.properties

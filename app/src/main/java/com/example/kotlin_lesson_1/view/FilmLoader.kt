@@ -5,6 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import androidx.annotation.RequiresApi
+import com.example.kotlin_lesson_1.BuildConfig
 import com.example.kotlin_lesson_1.model.dto.ReceivedDTO
 import com.google.gson.Gson
 import java.io.BufferedReader
@@ -25,7 +26,7 @@ interface FilmLoaderListener {
     @RequiresApi(Build.VERSION_CODES.N)
     fun loadFilm() {
         try {
-            val uri = URL("https://api.themoviedb.org/3/movie/157336?api_key=637d4ef9cabbc5ece262cf072b938f1b")
+            val uri = URL("https://api.themoviedb.org/3/movie/157336?api_key="+BuildConfig.FILM_API_KEY)
             val handler = Handler(Looper.getMainLooper())
             Thread {
                 lateinit var urlConnection: HttpsURLConnection
@@ -46,7 +47,6 @@ interface FilmLoaderListener {
                     Log.d("Some", "Fail in connection bro!", e)
                     e.printStackTrace()
                     listener.onFailed(e)
-                    //todo обработать ошибку
                 } finally {
                     urlConnection.disconnect()
                 }
@@ -55,7 +55,6 @@ interface FilmLoaderListener {
             Log.d("Again", "Failure in URL bro!", e)
             e.printStackTrace()
             listener.onFailed(e)
-            //todo обработать ошибку
         }
     }
 

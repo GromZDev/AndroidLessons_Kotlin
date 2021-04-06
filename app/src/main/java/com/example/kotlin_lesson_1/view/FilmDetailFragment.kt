@@ -1,13 +1,9 @@
 package com.example.kotlin_lesson_1.view
 
-
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.method.ScrollingMovementMethod
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,16 +13,6 @@ import com.example.kotlin_lesson_1.databinding.FragmentFilmDetailsBinding
 import com.example.kotlin_lesson_1.model.FilmFeature
 import com.example.kotlin_lesson_1.model.dto.ReceivedDTO
 import com.example.kotlin_lesson_1.model.getDefaultFilm
-import com.google.gson.Gson
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import java.lang.Exception
-import java.net.MalformedURLException
-import java.net.URL
-import java.util.stream.Collectors
-import javax.net.ssl.HttpsURLConnection
-
-private const val API_KEY = "637d4ef9cabbc5ece262cf072b938f1b"
 
 class FilmDetailFragment : Fragment() {
 
