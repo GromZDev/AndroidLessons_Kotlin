@@ -26,7 +26,7 @@ interface FilmLoaderListener {
     @RequiresApi(Build.VERSION_CODES.N)
     fun loadFilm() {
         try {
-            val uri = URL("https://api.themoviedb.org/3/movie/157336?api_key="+BuildConfig.FILM_API_KEY)
+            val uri = URL("https://api.themoviedb.org/3/movie/157336?api_key="+BuildConfig.FILM_API_KEY+"&language=ru")
             val handler = Handler(Looper.getMainLooper())
             Thread {
                 lateinit var urlConnection: HttpsURLConnection
