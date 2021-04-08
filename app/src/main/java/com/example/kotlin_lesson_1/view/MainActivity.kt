@@ -9,7 +9,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        savedInstanceState.let {
+        if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()
                 .replace(
