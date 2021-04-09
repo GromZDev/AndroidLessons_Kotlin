@@ -1,4 +1,4 @@
-package com.example.kotlin_lesson_1.view
+package com.example.kotlin_lesson_1.view.loadingDataService
 
 import android.app.IntentService
 import android.content.Intent
@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.kotlin_lesson_1.BuildConfig
 import com.example.kotlin_lesson_1.model.dto.ReceivedDTO
+import com.example.kotlin_lesson_1.view.*
 import com.google.gson.Gson
 import java.io.BufferedReader
 import java.io.InputStreamReader

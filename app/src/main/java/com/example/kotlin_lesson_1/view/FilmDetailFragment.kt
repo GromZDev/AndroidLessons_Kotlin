@@ -16,24 +16,25 @@ import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.kotlin_lesson_1.databinding.FragmentFilmDetailsBinding
 import com.example.kotlin_lesson_1.model.FilmFeature
-import com.example.kotlin_lesson_1.model.dto.FilmDTO
 import com.example.kotlin_lesson_1.model.dto.ReceivedDTO
 import com.example.kotlin_lesson_1.model.getDefaultFilm
+import com.example.kotlin_lesson_1.view.loadingDataService.*
 
+val DATA_LOADING_INTENT_FILTER = getIntentFilterKey()
+val FILM_DETAILS_REQUEST_ERROR_EXTRA = getRequestError()
+val FILM_DETAILS_REQUEST_ERROR_MESSAGE_EXTRA = getRequestErrorMessage()
+val FILM_DETAILS_RESPONSE_SUCCESS_EXTRA = getResponseSuccess()
+val FILM_DETAILS_RESPONSE_EMPTY_EXTRA = getResponseIsEmpty()
+val FILM_DETAILS_URL_MALFORMED_EXTRA = getURLMal()
+val FILM_DETAILS_INTENT_EMPTY_EXTRA = getIntentIsEmpty()
+val FILM_DETAILS_LOADED_RESULT_EXTRA = getLoadResult()
 
-const val DATA_LOADING_INTENT_FILTER = "FILM LOADING INTENT FILTER"
-const val FILM_DETAILS_REQUEST_ERROR_EXTRA = "REQUEST ERROR"
-const val FILM_DETAILS_REQUEST_ERROR_MESSAGE_EXTRA = "REQUEST ERROR MESSAGE"
-const val FILM_DETAILS_RESPONSE_SUCCESS_EXTRA = "RESPONSE SUCCESS"
-const val FILM_TITLE_EXTRA = "TITLE_EXTRA"
-const val FILM_OVERVIEW_EXTRA = "OVERVIEW_EXTRA"
-const val FILM_DATE_EXTRA = "DATE_EXTRA"
-const val FILM_RUNTIME_EXTRA = "RUNTIME_EXTRA"
-const val FILM_RATING_EXTRA = "RATING_EXTRA"
-const val FILM_DETAILS_RESPONSE_EMPTY_EXTRA = "RESPONSE IS EMPTY"
-const val FILM_DETAILS_URL_MALFORMED_EXTRA = "URL MALFORMED"
-const val FILM_DETAILS_INTENT_EMPTY_EXTRA = "INTENT IS EMPTY"
-const val FILM_DETAILS_LOADED_RESULT_EXTRA = "LOAD RESULT"
+val FILM_TITLE_EXTRA = getTitleKeyExtra()
+val FILM_OVERVIEW_EXTRA = getOverviewKeyExtra()
+val FILM_DATE_EXTRA = getDateKeyExtra()
+val FILM_RUNTIME_EXTRA = getRuntimeKeyExtra()
+val FILM_RATING_EXTRA = getRatingKeyExtra()
+
 private const val PROCESS_ERROR = "Обработка ошибки"
 
 class FilmDetailFragment : Fragment() {
