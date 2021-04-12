@@ -24,7 +24,7 @@ class MainViewModel(
     private fun getDataFromLocalSource(isAllFilms: Boolean) {
         liveDataToObserve.value = AppState.Loading
         Thread {
-            sleep(3000) // Теперь берем данные из списков:
+            sleep(1000) // Теперь берем данные из списков:
             liveDataToObserve.postValue(AppState.Success(if (isAllFilms)
                 repositoryImpl.getFilmFromLocalStorageAllFilms() else
                 repositoryImpl.getFilmFromLocalStoragePopularFilms()))

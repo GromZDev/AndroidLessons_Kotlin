@@ -1,0 +1,12 @@
+package com.example.kotlin_lesson_1.utils
+
+import android.view.View
+import com.google.android.material.snackbar.Snackbar
+
+class ViewUtils {
+   fun View.showSnackBar (
+        text: String, actionText: String, action: (View) -> Unit, length: Int = Snackbar.LENGTH_INDEFINITE
+    ) {
+        Snackbar.make(this, text, length).setAction(actionText, action).show()}
+
+}
