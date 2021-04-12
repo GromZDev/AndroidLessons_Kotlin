@@ -6,6 +6,7 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kotlin_lesson_1.R
+import com.example.kotlin_lesson_1.view.main.MainFilmFragment
 
 class MainActivity : AppCompatActivity() {
 

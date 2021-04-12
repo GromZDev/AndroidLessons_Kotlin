@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlin_lesson_1.R
 import com.example.kotlin_lesson_1.model.FilmFeature
-import com.example.kotlin_lesson_1.view.MainFilmFragment
+import com.example.kotlin_lesson_1.view.main.MainFilmFragment
 import kotlinx.android.synthetic.main.item_category_film_recyclerview.view.*
 
 class SpecificFilmAdapter(

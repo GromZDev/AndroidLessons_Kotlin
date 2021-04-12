@@ -1,4 +1,4 @@
-package com.example.kotlin_lesson_1.model.repository
+package com.example.kotlin_lesson_1.repository
 
 import okhttp3.Callback
 import okhttp3.OkHttpClient

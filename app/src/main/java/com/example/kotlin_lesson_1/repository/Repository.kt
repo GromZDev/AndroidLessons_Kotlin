@@ -1,4 +1,6 @@
-package com.example.kotlin_lesson_1.model
+package com.example.kotlin_lesson_1.repository
+
+import com.example.kotlin_lesson_1.model.FilmFeature
 
 // Интерфейс репозитория
 interface Repository {

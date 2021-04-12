@@ -6,11 +6,11 @@ import com.example.kotlin_lesson_1.R
 import com.example.kotlin_lesson_1.model.Film
 import com.example.kotlin_lesson_1.model.FilmFeature
 import com.example.kotlin_lesson_1.model.dto.ReceivedDTO
-import com.example.kotlin_lesson_1.model.repository.FilmDetailsRepository
-import com.example.kotlin_lesson_1.model.repository.FilmDetailsRepositoryImpl
-import com.example.kotlin_lesson_1.model.repository.RemoteDataSource
+import com.example.kotlin_lesson_1.repository.FilmDetailsRepository
+import com.example.kotlin_lesson_1.repository.FilmDetailsRepositoryImpl
+import com.example.kotlin_lesson_1.repository.RemoteDataSource
+import com.example.kotlin_lesson_1.utils.convertDtoToModel
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.fragment_film_details.view.*
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
@@ -65,20 +65,17 @@ class FilmDetailsViewModel(
             } else {
                 AppState.Success(convertDtoToModel(receivedDTO))
             }
-
-
         }
-
     }
 
-    private fun convertDtoToModel(receivedDTO: ReceivedDTO): List<FilmFeature> {
-        val name = receivedDTO.original_title
-        val date = receivedDTO.release_date
-        val rating = receivedDTO.vote_average
-        val overview = receivedDTO.overview.toString()
-        val time = receivedDTO.runtime
-        return listOf(FilmFeature(Film(name!!, R.drawable.film_avengers_end_game, rating!!, date!!, time!!), overview, "Default"))
-    }
+//    private fun convertDtoToModel(receivedDTO: ReceivedDTO): List<FilmFeature> {
+//        val name = receivedDTO.original_title
+//        val date = receivedDTO.release_date
+//        val rating = receivedDTO.vote_average
+//        val overview = receivedDTO.overview.toString()
+//        val time = receivedDTO.runtime
+//        return listOf(FilmFeature(Film(name!!, R.drawable.film_avengers_end_game, rating!!, date!!, time!!), overview, "Default"))
+//    }
 }
 
 

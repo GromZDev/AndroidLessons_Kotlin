@@ -13,7 +13,7 @@ import com.example.kotlin_lesson_1.R
 import com.example.kotlin_lesson_1.model.FilmFeature
 import com.example.kotlin_lesson_1.model.category_RV.FilmSpecificListCategory
 import com.example.kotlin_lesson_1.view.FilmDetailFragment
-import com.example.kotlin_lesson_1.view.MainFilmFragment
+import com.example.kotlin_lesson_1.view.main.MainFilmFragment
 import kotlinx.android.synthetic.main.item_category_recyclerview.view.*
 
 

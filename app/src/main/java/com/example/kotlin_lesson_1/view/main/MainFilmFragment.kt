@@ -1,4 +1,4 @@
-package com.example.kotlin_lesson_1.view
+package com.example.kotlin_lesson_1.view.main
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +13,8 @@ import com.example.kotlin_lesson_1.R
 import com.example.kotlin_lesson_1.databinding.FragmentFilmMainBinding
 import com.example.kotlin_lesson_1.model.category_RV.FilmCategoryData
 import com.example.kotlin_lesson_1.model.FilmFeature
+import com.example.kotlin_lesson_1.utils.showSnackBar
+import com.example.kotlin_lesson_1.view.FilmDetailFragment
 import com.example.kotlin_lesson_1.view.category_RV.FilmCategoryAdapter
 import com.example.kotlin_lesson_1.viewModel.AppState
 import com.example.kotlin_lesson_1.viewModel.MainViewModel
@@ -76,11 +78,6 @@ class MainFilmFragment : Fragment() {
         mainFilmsViewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
         mainFilmsViewModel.getFilmFromLocalSourceAllFilms()
 
-        // ================================
-        //  initCategoryRecyclerView()
-        //=================================
-
-
     }
 
     private fun renderData(appState: AppState) {
@@ -110,14 +107,6 @@ class MainFilmFragment : Fragment() {
                     getString(R.string.reloading),
                     {mainFilmsViewModel.getFilmFromLocalSourceAllFilms()}
                 )
-//                Snackbar.make(
-//                    binding.buttonChangeFilmCategory,
-//                    getString(R.string.error),
-//                    Snackbar.LENGTH_INDEFINITE
-//                )
-//                    .setAction(getString(R.string.reloading)) {
-//                        mainFilmsViewModel.getFilmFromLocalSourceAllFilms()
-//                    }.show()
             }
         }
     }
@@ -156,10 +145,6 @@ class MainFilmFragment : Fragment() {
             adapter = FilmCategoryAdapter(FilmCategoryData.getParents(5))
         }
     }
-
-    private fun View.showSnackBar (
-        text: String, actionText: String, action: (View) -> Unit, length: Int = Snackbar.LENGTH_INDEFINITE
-    ) {Snackbar.make(this, text, length).setAction(actionText, action).show()}
 
 // ======== Сетим кастомные Экстеншены для SnackBar при Success: ===========
     private fun View.showSnackBarForSuccess (

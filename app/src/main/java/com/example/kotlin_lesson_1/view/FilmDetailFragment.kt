@@ -24,6 +24,7 @@ import com.example.kotlin_lesson_1.databinding.FragmentFilmDetailsBinding
 import com.example.kotlin_lesson_1.model.FilmFeature
 import com.example.kotlin_lesson_1.model.dto.ReceivedDTO
 import com.example.kotlin_lesson_1.model.getDefaultFilm
+import com.example.kotlin_lesson_1.utils.showSnackBar
 import com.example.kotlin_lesson_1.view.loadingDataService.*
 import com.example.kotlin_lesson_1.viewModel.AppState
 import com.example.kotlin_lesson_1.viewModel.FilmDetailsViewModel
@@ -185,14 +186,6 @@ class FilmDetailFragment : Fragment() {
 
     }
 
-    private fun View.showSnackBar(
-        text: String,
-        actionText: String,
-        action: (View) -> Unit,
-        length: Int = Snackbar.LENGTH_INDEFINITE
-    ) {
-        Snackbar.make(this, text, length).setAction(actionText, action).show()
-    }
 
 // ====================== Сетим из OkHttp =============================
 //    private fun getFilmFromOkHttp() {
