@@ -1,15 +1,8 @@
 package com.example.kotlin_lesson_1.view
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,21 +10,14 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.example.kotlin_lesson_1.BuildConfig
 import com.example.kotlin_lesson_1.R
 import com.example.kotlin_lesson_1.databinding.FragmentFilmDetailsBinding
 import com.example.kotlin_lesson_1.model.FilmFeature
-import com.example.kotlin_lesson_1.model.dto.ReceivedDTO
 import com.example.kotlin_lesson_1.model.getDefaultFilm
 import com.example.kotlin_lesson_1.utils.showSnackBar
 import com.example.kotlin_lesson_1.view.loadingDataService.*
 import com.example.kotlin_lesson_1.viewModel.AppState
-import com.example.kotlin_lesson_1.viewModel.FilmDetailsViewModel
-import com.google.android.material.snackbar.Snackbar
-import com.google.gson.Gson
-import okhttp3.*
-import java.io.IOException
+import com.example.kotlin_lesson_1.viewModel.oneFilmViewModel.OneFilmViewModel
 
 val DATA_LOADING_INTENT_FILTER = getIntentFilterKey()
 val FILM_DETAILS_REQUEST_ERROR_EXTRA = getRequestError()
@@ -58,8 +44,13 @@ class FilmDetailFragment : Fragment() {
 
     private lateinit var filmsBundle: FilmFeature
 
-    private val viewModelDetails: FilmDetailsViewModel by lazy {
-        ViewModelProvider(this).get(FilmDetailsViewModel::class.java)
+//    private val viewModelDetails: FilmDetailsViewModel by lazy {
+//        ViewModelProvider(this).get(FilmDetailsViewModel::class.java)
+//    }
+
+
+    private val oneFilmViewModelDetails: OneFilmViewModel by lazy {
+        ViewModelProvider(this).get(OneFilmViewModel::class.java)
     }
 
 
@@ -143,15 +134,17 @@ class FilmDetailFragment : Fragment() {
         //       getFilmFromIntent()
 // =============================================================================
 
-        viewModelDetails.getLiveDataDetails()
-            .observe(viewLifecycleOwner, Observer { renderDetailsData(it) })
-        viewModelDetails.getFilmFromRemoteSource("https://api.themoviedb.org/3/movie/157336?api_key=" + BuildConfig.FILM_API_KEY + "&language=ru")
+//        viewModelDetails.getLiveDataDetails()
+//            .observe(viewLifecycleOwner, Observer { renderDetailsData(it) })
+//        viewModelDetails.getFilmFromRemoteSource("https://api.themoviedb.org/3/movie/157336?api_key=" + BuildConfig.FILM_API_KEY + "&language=ru")
 
+        oneFilmViewModelDetails.oneFilmLiveData.observe(viewLifecycleOwner, Observer { renderOneFilmData(it) })
+        oneFilmViewModelDetails.getOneFilmFromRemoteSource()
 
 //        getFilmFromOkHttp()
     }
 
-    private fun renderDetailsData(appState: AppState) {
+    private fun renderOneFilmData(appState: AppState) {
         when (appState) {
             is AppState.Success -> {
                 binding.filmDetailsFragment.visibility = View.VISIBLE
@@ -164,10 +157,30 @@ class FilmDetailFragment : Fragment() {
                 binding.filmDetailsFragment.visibility = View.VISIBLE
                 binding.filmDetailsFragment.showSnackBar(getString(R.string.error),
                     getString(R.string.reloading),
-                    { viewModelDetails.getFilmFromRemoteSource("https://api.themoviedb.org/3/movie/157336?api_key=" + BuildConfig.FILM_API_KEY + "&language=ru") })
+                    {
+                        oneFilmViewModelDetails.getOneFilmFromRemoteSource()
+                    })
             }
         }
     }
+
+//    private fun renderDetailsData(appState: AppState) {
+//        when (appState) {
+//            is AppState.Success -> {
+//                binding.filmDetailsFragment.visibility = View.VISIBLE
+//                setFilm(appState.cinemaData[0])
+//            }
+//            is AppState.Loading -> {
+//                binding.filmDetailsFragment.visibility = View.GONE
+//            }
+//            is AppState.Error -> {
+//                binding.filmDetailsFragment.visibility = View.VISIBLE
+//                binding.filmDetailsFragment.showSnackBar(getString(R.string.error),
+//                    getString(R.string.reloading),
+//                    { viewModelDetails.getFilmFromRemoteSource("https://api.themoviedb.org/3/movie/157336?api_key=" + BuildConfig.FILM_API_KEY + "&language=ru") })
+//            }
+//        }
+//    }
 
     private fun setFilm(filmData: FilmFeature) {
 

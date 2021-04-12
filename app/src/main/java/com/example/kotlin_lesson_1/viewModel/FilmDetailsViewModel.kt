@@ -29,52 +29,44 @@ class FilmDetailsViewModel(
 
     fun getLiveDataDetails() = detailsLiveData
 
-    fun getFilmFromRemoteSource(requestLink: String) {
-        detailsLiveData.value = AppState.Loading
-        detailsRepositoryImpl.getFilmDetailsFromServer(requestLink, callBack)
-    }
+//    fun getFilmFromRemoteSource(requestLink: String) {
+//        detailsLiveData.value = AppState.Loading
+//        detailsRepositoryImpl.getFilmDetailsFromServer(requestLink, callBack)
+//    }
+//
+//    private val callBack = object : Callback {
+//
+//        @Throws(IOException::class)
+//        override fun onResponse(call: Call, response: Response) {
+//            val serverResponse: String? = response.body()?.string()
+//            detailsLiveData.postValue(
+//                if (response.isSuccessful && serverResponse != null) {
+//                    checkResponse(serverResponse)
+//                } else {
+//                    AppState.Error(Throwable(SERVER_ERROR))
+//                }
+//            )
+//        }
+//
+//        override fun onFailure(call: Call, e: IOException) {
+//            detailsLiveData.postValue(AppState.Error(Throwable(e?.message ?: REQUEST_ERROR)))
+//        }
 
-    private val callBack = object : Callback {
-
-        @Throws(IOException::class)
-        override fun onResponse(call: Call, response: Response) {
-            val serverResponse: String? = response.body()?.string()
-            detailsLiveData.postValue(
-                if (response.isSuccessful && serverResponse != null) {
-                    checkResponse(serverResponse)
-                } else {
-                    AppState.Error(Throwable(SERVER_ERROR))
-                }
-            )
-        }
-
-        override fun onFailure(call: Call, e: IOException) {
-            detailsLiveData.postValue(AppState.Error(Throwable(e?.message ?: REQUEST_ERROR)))
-        }
-
-        private fun checkResponse(serverResponse: String): AppState {
-            val receivedDTO: ReceivedDTO =
-                Gson().fromJson(serverResponse, ReceivedDTO::class.java)
-            val name = receivedDTO.original_title
-            val date = receivedDTO.release_date
-            val rating = receivedDTO.vote_average
-            val overview = receivedDTO.overview
-            val time = receivedDTO.runtime
-            return if (name == null || date == null || rating == 0.0 || overview == null || time == 0) {
-                AppState.Error(Throwable(CORRUPTED_DATA))
-            } else {
-                AppState.Success(convertDtoToModel(receivedDTO))
-            }
-        }
-    }
-
-//    private fun convertDtoToModel(receivedDTO: ReceivedDTO): List<FilmFeature> {
-//        val name = receivedDTO.original_title
-//        val date = receivedDTO.release_date
-//        val rating = receivedDTO.vote_average
-//        val overview = receivedDTO.overview.toString()
-//        val time = receivedDTO.runtime
-//        return listOf(FilmFeature(Film(name!!, R.drawable.film_avengers_end_game, rating!!, date!!, time!!), overview, "Default"))
+//        private fun checkResponse(serverResponse: String): AppState {
+//            val receivedDTO: ReceivedDTO =
+//                Gson().fromJson(serverResponse, ReceivedDTO::class.java)
+//            val name = receivedDTO.original_title
+//            val date = receivedDTO.release_date
+//            val rating = receivedDTO.vote_average
+//            val overview = receivedDTO.overview
+//            val time = receivedDTO.runtime
+//            return if (name == null || date == null || rating == 0.0 || overview == null || time == 0) {
+//                AppState.Error(Throwable(CORRUPTED_DATA))
+//            }
+//            else {
+//                AppState.Success(convertDtoToModel(receivedDTO))
+//            }
+//        }
 //    }
 }
 
