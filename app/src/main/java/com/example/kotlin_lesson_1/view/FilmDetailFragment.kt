@@ -18,6 +18,8 @@ import com.example.kotlin_lesson_1.utils.showSnackBar
 import com.example.kotlin_lesson_1.view.loadingDataService.*
 import com.example.kotlin_lesson_1.viewModel.AppState
 import com.example.kotlin_lesson_1.viewModel.oneFilmViewModel.OneFilmViewModel
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_film_details.*
 
 val DATA_LOADING_INTENT_FILTER = getIntentFilterKey()
 val FILM_DETAILS_REQUEST_ERROR_EXTRA = getRequestError()
@@ -190,8 +192,9 @@ class FilmDetailFragment : Fragment() {
         binding.twFilmDescription.text = filmData.description
         binding.twFilmTime.text = filmData.film.filmTime.toString()
 
+        Picasso.get().load("https://image.tmdb.org/t/p/w500/rPrqBqZLl8m6sUQmZCchqW7IEYo.jpg").into(iw_film_image)
         // Остальные поля берём штатные:
-        binding.iwFilmImage.setImageResource(filmsBundle.film.filmImage)
+//        binding.iwFilmImage.setImageResource(filmsBundle.film.filmImage)
         binding.iwFilmImage.setColorFilter(
             Color.rgb(123, 123, 123),
             android.graphics.PorterDuff.Mode.MULTIPLY

@@ -70,6 +70,9 @@ dependencies {
     //for OkHttp
     implementation 'com.squareup.okhttp3:okhttp:3.14.9'
 
+    //for Picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
