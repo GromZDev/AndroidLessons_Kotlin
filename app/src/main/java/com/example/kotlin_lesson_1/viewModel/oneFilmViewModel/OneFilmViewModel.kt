@@ -25,9 +25,7 @@ class OneFilmViewModel(
     )
 ) : ViewModel() {
 
-    fun getLiveData() = oneFilmLiveData // Получаем LiveData. Она хранит состояние приложения
-
-    fun getOneFilmFromRemoteSource(){
+    fun getOneFilmFromRemoteSource() {
         oneFilmLiveData.value = AppState.Loading
         repositoryImpl.getOneFilmDetailsFromServer(callBack)
     }
@@ -37,7 +35,7 @@ class OneFilmViewModel(
         override fun onResponse(call: Call<OneFilmDTO>, response: Response<OneFilmDTO>) {
             val serverResponse: OneFilmDTO? = response.body()
             oneFilmLiveData.postValue(
-                if (response.isSuccessful && serverResponse != null){
+                if (response.isSuccessful && serverResponse != null) {
                     checkResponse(serverResponse)
                 } else {
                     AppState.Error(Throwable(SERVER_ERROR))

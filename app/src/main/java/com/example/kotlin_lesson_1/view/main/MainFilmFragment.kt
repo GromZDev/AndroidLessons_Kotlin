@@ -41,7 +41,7 @@ class MainFilmFragment : Fragment() {
         override fun onItemViewClick(film: FilmFeature) {
             val manager = activity?.supportFragmentManager
             // Если manager не null...(let)
-            manager?.let{
+            manager?.let {
                 val bundle = Bundle()
                 bundle.putParcelable(FilmDetailFragment.BUNDLE_EXTRA, film)
                 manager.beginTransaction()
@@ -91,8 +91,8 @@ class MainFilmFragment : Fragment() {
 
                 binding.mainFragmentView.showSnackBarForSuccess(
                     getString(R.string.successData), 5000,
-                    {setColorSbBG()},
-                    {setTextSbColor(ContextCompat.getColor(context, R.color.item_rv_bg))}
+                    { setColorSbBG() },
+                    { setTextSbColor(ContextCompat.getColor(context, R.color.item_rv_bg)) }
                 )
             }
             is AppState.Loading -> {
@@ -105,7 +105,7 @@ class MainFilmFragment : Fragment() {
                 binding.mainFragmentView.showSnackBar(
                     getString(R.string.error),
                     getString(R.string.reloading),
-                    {mainFilmsViewModel.getFilmFromLocalSourceAllFilms()}
+                    { mainFilmsViewModel.getFilmFromLocalSourceAllFilms() }
                 )
             }
         }
@@ -146,14 +146,14 @@ class MainFilmFragment : Fragment() {
         }
     }
 
-// ======== Сетим кастомные Экстеншены для SnackBar при Success: ===========
-    private fun View.showSnackBarForSuccess (
+    // ======== Сетим кастомные Экстеншены для SnackBar при Success: ===========
+    private fun View.showSnackBarForSuccess(
         text: String, length: Int, bg: Snackbar.() -> Unit, col: Snackbar.() -> Unit
     ) {
         val sBar = Snackbar.make(this, text, length)
-            sBar.bg()
-            sBar.col()
-            sBar.show()
+        sBar.bg()
+        sBar.col()
+        sBar.show()
     }
 
     private fun Snackbar.setColorSbBG() {
