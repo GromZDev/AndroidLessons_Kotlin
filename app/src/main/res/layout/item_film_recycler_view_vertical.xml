@@ -93,7 +93,7 @@
         android:layout_marginStart="20dp"
         android:background="@drawable/ic_film_year"
         android:contentDescription="@string/film_year_icon"
-        app:layout_constraintStart_toEndOf="@id/item_film_time_word"
+        app:layout_constraintStart_toEndOf="@+id/item_film_rating"
         app:layout_constraintTop_toTopOf="@id/item_film_rating" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -101,9 +101,9 @@
         android:layout_width="wrap_content"
         android:layout_height="36dp"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:textAlignment="textEnd"
-        android:textSize="24sp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/item_film_year_image"
         app:layout_constraintTop_toTopOf="@id/item_film_rating"
         tools:text="2020" />

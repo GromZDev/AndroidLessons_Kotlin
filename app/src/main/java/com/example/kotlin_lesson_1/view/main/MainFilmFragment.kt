@@ -4,15 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlin_lesson_1.R
 import com.example.kotlin_lesson_1.databinding.FragmentFilmMainBinding
 import com.example.kotlin_lesson_1.model.category_RV.FilmCategoryData
 import com.example.kotlin_lesson_1.model.FilmFeature
+import com.example.kotlin_lesson_1.model.dto.Movie
+import com.example.kotlin_lesson_1.repository.topRatedFilmsRepository.PopularFilmsRepository
 import com.example.kotlin_lesson_1.utils.showSnackBar
 import com.example.kotlin_lesson_1.view.FilmDetailFragment
 import com.example.kotlin_lesson_1.view.category_RV.FilmCategoryAdapter
@@ -29,6 +33,14 @@ class MainFilmFragment : Fragment() {
 
     private var _binding: FragmentFilmMainBinding? = null
     private val binding get() = _binding!!
+
+
+    private lateinit var popularFilms: RecyclerView
+    private lateinit var popularFilmsAdapter: PopularFilmsAdapter
+    private lateinit var popularFilmsLayoutManager: LinearLayoutManager
+
+    private var popularFilmsPage = 1
+    private var popularFilmsLanguage = "ru"
 
     // viewModel создаем через делегирование посредством by через функцию lazy.
     // Модель будет создана только тогда, когда к ней впервые обратятся, или не будет создана,
@@ -70,7 +82,7 @@ class MainFilmFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.filmRecyclerViewVertical.adapter = adapter
+//        binding.filmRecyclerViewVertical.adapter = adapter
         binding.buttonChangeFilmCategory.setOnClickListener {
             changeFilmDataInMainFragment()
         }
@@ -78,7 +90,55 @@ class MainFilmFragment : Fragment() {
         mainFilmsViewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
         mainFilmsViewModel.getFilmFromLocalSourceAllFilms()
 
+
+        popularFilms = binding.filmRecyclerViewVertical
+        popularFilms.layoutManager = LinearLayoutManager(
+            context,
+            LinearLayoutManager.VERTICAL,
+            false
+        )
+
+        popularFilmsLayoutManager = popularFilms.layoutManager as LinearLayoutManager
+        popularFilmsAdapter = PopularFilmsAdapter(mutableListOf())
+        popularFilms.adapter = popularFilmsAdapter
+
+        getPopularMovies()
     }
+
+    private fun attachPopularMoviesOnScrollListener() {
+        popularFilms.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                val totalItemCount = popularFilmsLayoutManager.itemCount
+                val visibleItemCount = popularFilmsLayoutManager.childCount
+                val firstVisibleItem = popularFilmsLayoutManager.findFirstVisibleItemPosition()
+
+                if (firstVisibleItem + visibleItemCount >= totalItemCount / 2) {
+                    popularFilms.removeOnScrollListener(this)
+                    popularFilmsPage++
+                    getPopularMovies()
+                }
+            }
+        })
+    }
+
+    private fun getPopularMovies() {
+        PopularFilmsRepository.getPopularMovies(
+            popularFilmsLanguage,
+            popularFilmsPage,
+            ::onPopularMoviesFetched,
+            ::onError
+        )
+    }
+
+    private fun onPopularMoviesFetched(movies: List<Movie>) {
+        popularFilmsAdapter.appendMovies(movies)
+        attachPopularMoviesOnScrollListener()
+    }
+
+    private fun onError() {
+        Toast.makeText(context, "ERROR<<<<<<<<<<<<<<<<<<<<", Toast.LENGTH_SHORT).show()
+    }
+
 
     private fun renderData(appState: AppState) {
         when (appState) {
