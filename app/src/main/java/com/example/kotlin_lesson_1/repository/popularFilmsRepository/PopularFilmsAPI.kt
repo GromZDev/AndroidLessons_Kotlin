@@ -1,5 +1,6 @@
-package com.example.kotlin_lesson_1.repository.topRatedFilmsRepository
+package com.example.kotlin_lesson_1.repository.popularFilmsRepository
 
+import com.example.kotlin_lesson_1.BuildConfig
 import com.example.kotlin_lesson_1.model.dto.GetMoviesResponse
 import retrofit2.Call
 import retrofit2.http.GET
@@ -9,7 +10,7 @@ interface PopularFilmsAPI {
 
     @GET("movie/popular")
     fun getPopularMovies(
-        @Query("api_key") apiKey: String = "637d4ef9cabbc5ece262cf072b938f1b",
+        @Query("api_key") apiKey: String = BuildConfig.FILM_API_KEY,
         @Query("language") lang: String,
         @Query("page") page: Int
     ): Call<GetMoviesResponse>

@@ -1,4 +1,4 @@
-package com.example.kotlin_lesson_1.repository.topRatedFilmsRepository
+package com.example.kotlin_lesson_1.repository.popularFilmsRepository
 
 import android.util.Log
 import com.example.kotlin_lesson_1.model.dto.GetMoviesResponse
