@@ -12,7 +12,8 @@ import com.example.kotlin_lesson_1.R
 import com.example.kotlin_lesson_1.model.dto.Movie
 
 class PopularFilmsAdapter(
-    private var movies: MutableList<Movie>
+    private var movies: MutableList<Movie>,
+    private var onPopularFilmItemViewClickListener: MainFilmFragment.OnPopularFilmItemViewClickListener?
 ) : RecyclerView.Adapter<PopularFilmsAdapter.PopularFilms>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopularFilms {
@@ -53,6 +54,15 @@ class PopularFilmsAdapter(
 
             itemView.findViewById<ImageView>(R.id.item_film_year_image)
             itemView.findViewById<TextView>(R.id.item_film_year).text = movie.releaseDate
+
+            itemView.setOnClickListener {
+                onPopularFilmItemViewClickListener?.onPopularFilmItemViewClick(movie) // Вызываем слушатель нажатия
+            }
         }
     }
+
+    fun removeListener() {
+        onPopularFilmItemViewClickListener = null
+    }
 }
+

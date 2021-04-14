@@ -64,11 +64,11 @@ class FilmDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        filmsBundle = arguments?.getParcelable(BUNDLE_EXTRA) ?: FilmFeature(
-            getDefaultFilm(),
-            "Default",
-            "Default"
-        )
+//        filmsBundle = arguments?.getParcelable(BUNDLE_EXTRA) ?: FilmFeature(
+//            getDefaultFilm(),
+//            "Default",
+//            "Default"
+//        )
 
         oneFilmViewModelDetails.oneFilmLiveData.observe(
             viewLifecycleOwner,

@@ -19,6 +19,7 @@ import com.example.kotlin_lesson_1.model.dto.Movie
 import com.example.kotlin_lesson_1.repository.topRatedFilmsRepository.PopularFilmsRepository
 import com.example.kotlin_lesson_1.utils.showSnackBar
 import com.example.kotlin_lesson_1.view.FilmDetailFragment
+import com.example.kotlin_lesson_1.view.PopularFilmDetailFragment
 import com.example.kotlin_lesson_1.view.category_RV.FilmCategoryAdapter
 import com.example.kotlin_lesson_1.viewModel.AppState
 import com.example.kotlin_lesson_1.viewModel.MainViewModel
@@ -29,6 +30,10 @@ class MainFilmFragment : Fragment() {
 
     interface OnItemViewClickListener {
         fun onItemViewClick(film: FilmFeature)
+    }
+
+    interface OnPopularFilmItemViewClickListener {
+        fun onPopularFilmItemViewClick(film: Movie)
     }
 
     private var _binding: FragmentFilmMainBinding? = null
@@ -49,23 +54,23 @@ class MainFilmFragment : Fragment() {
         ViewModelProvider(this).get(MainViewModel::class.java)
     }
 
-    private val adapter = MainFilmFragmentAdapter(object : OnItemViewClickListener {
-        override fun onItemViewClick(film: FilmFeature) {
-            val manager = activity?.supportFragmentManager
-            // Если manager не null...(let)
-            manager?.let {
-                val bundle = Bundle()
-                bundle.putParcelable(FilmDetailFragment.BUNDLE_EXTRA, film)
-                manager.beginTransaction()
-                    .replace(R.id.fragment_container, FilmDetailFragment.newInstance(bundle))
-                    .addToBackStack("")
-                    .commitAllowingStateLoss()
-            }
-        }
+//    private val adapter = MainFilmFragmentAdapter(object : OnItemViewClickListener {
+//        override fun onItemViewClick(film: FilmFeature) {
+//            val manager = activity?.supportFragmentManager
+//            // Если manager не null...(let)
+//            manager?.let {
+//                val bundle = Bundle()
+//                bundle.putParcelable(FilmDetailFragment.BUNDLE_EXTRA, film)
+//                manager.beginTransaction()
+//                    .replace(R.id.fragment_container, FilmDetailFragment.newInstance(bundle))
+//                    .addToBackStack("")
+//                    .commitAllowingStateLoss()
+//            }
+//        }
+//
+//    }
 
-    }
-
-    )
+//    )
     private var isFilmSetAll: Boolean = true
 
     private lateinit var mainView: View
@@ -99,7 +104,21 @@ class MainFilmFragment : Fragment() {
         )
 
         popularFilmsLayoutManager = popularFilms.layoutManager as LinearLayoutManager
-        popularFilmsAdapter = PopularFilmsAdapter(mutableListOf())
+        popularFilmsAdapter = PopularFilmsAdapter(mutableListOf(), object : OnPopularFilmItemViewClickListener {
+            override fun onPopularFilmItemViewClick(film: Movie) {
+                val manager = activity?.supportFragmentManager
+                // Если manager не null...(let)
+                manager?.let {
+                    val bundle = Bundle()
+                    bundle.putParcelable(PopularFilmDetailFragment.POPULAR_BUNDLE_EXTRA, film)
+                    manager.beginTransaction()
+                        .replace(R.id.fragment_container, PopularFilmDetailFragment.newInstance(bundle))
+                        .addToBackStack("")
+                        .commitAllowingStateLoss()
+                }
+            }
+
+        })
         popularFilms.adapter = popularFilmsAdapter
 
         getPopularMovies()
@@ -147,7 +166,7 @@ class MainFilmFragment : Fragment() {
                 binding.filmRecyclerViewVertical.visibility = View.VISIBLE
                 binding.twPartName.visibility = View.VISIBLE
                 initCategoryRecyclerView()
-                adapter.setFilms(appState.cinemaData)
+             //   adapter.setFilms(appState.cinemaData)
 
                 binding.mainFragmentView.showSnackBarForSuccess(
                     getString(R.string.successData), 5000,
@@ -193,7 +212,8 @@ class MainFilmFragment : Fragment() {
 
     // Чтобы не было утечек - удаляем листенер из адаптера:
     override fun onDestroy() {
-        adapter.removeListener()
+      //  adapter.removeListener()
+        popularFilmsAdapter.removeListener()
         super.onDestroy()
     }
 
