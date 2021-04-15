@@ -1,4 +1,8 @@
-package com.example.kotlin_lesson_1.model
+package com.example.kotlin_lesson_1.repository
+
+import com.example.kotlin_lesson_1.model.FilmFeature
+import com.example.kotlin_lesson_1.model.getAllFilms
+import com.example.kotlin_lesson_1.model.getPopularFilms
 
 // Имплементация интерфейса Repo
 class RepositoryImpl: Repository {

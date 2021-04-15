@@ -1,18 +1,24 @@
-package com.example.kotlin_lesson_1.view
+package com.example.kotlin_lesson_1.view.main
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlin_lesson_1.R
 import com.example.kotlin_lesson_1.databinding.FragmentFilmMainBinding
 import com.example.kotlin_lesson_1.model.category_RV.FilmCategoryData
 import com.example.kotlin_lesson_1.model.FilmFeature
+import com.example.kotlin_lesson_1.model.dto.Movie
+import com.example.kotlin_lesson_1.repository.popularFilmsRepository.PopularFilmsRepository
+import com.example.kotlin_lesson_1.utils.showSnackBar
+import com.example.kotlin_lesson_1.view.PopularFilmDetailFragment
 import com.example.kotlin_lesson_1.view.category_RV.FilmCategoryAdapter
 import com.example.kotlin_lesson_1.viewModel.AppState
 import com.example.kotlin_lesson_1.viewModel.MainViewModel
@@ -25,8 +31,20 @@ class MainFilmFragment : Fragment() {
         fun onItemViewClick(film: FilmFeature)
     }
 
+    interface OnPopularFilmItemViewClickListener {
+        fun onPopularFilmItemViewClick(film: Movie)
+    }
+
     private var _binding: FragmentFilmMainBinding? = null
     private val binding get() = _binding!!
+
+
+    private lateinit var popularFilms: RecyclerView
+    private lateinit var popularFilmsAdapter: PopularFilmsAdapter
+    private lateinit var popularFilmsLayoutManager: LinearLayoutManager
+
+    private var popularFilmsPage = 1
+    private var popularFilmsLanguage = "ru"
 
     // viewModel создаем через делегирование посредством by через функцию lazy.
     // Модель будет создана только тогда, когда к ней впервые обратятся, или не будет создана,
@@ -35,23 +53,23 @@ class MainFilmFragment : Fragment() {
         ViewModelProvider(this).get(MainViewModel::class.java)
     }
 
-    private val adapter = MainFilmFragmentAdapter(object : OnItemViewClickListener {
-        override fun onItemViewClick(film: FilmFeature) {
-            val manager = activity?.supportFragmentManager
-            // Если manager не null...(let)
-            manager?.let{
-                val bundle = Bundle()
-                bundle.putParcelable(FilmDetailFragment.BUNDLE_EXTRA, film)
-                manager.beginTransaction()
-                    .replace(R.id.fragment_container, FilmDetailFragment.newInstance(bundle))
-                    .addToBackStack("")
-                    .commitAllowingStateLoss()
-            }
-        }
+//    private val adapter = MainFilmFragmentAdapter(object : OnItemViewClickListener {
+//        override fun onItemViewClick(film: FilmFeature) {
+//            val manager = activity?.supportFragmentManager
+//            // Если manager не null...(let)
+//            manager?.let {
+//                val bundle = Bundle()
+//                bundle.putParcelable(FilmDetailFragment.BUNDLE_EXTRA, film)
+//                manager.beginTransaction()
+//                    .replace(R.id.fragment_container, FilmDetailFragment.newInstance(bundle))
+//                    .addToBackStack("")
+//                    .commitAllowingStateLoss()
+//            }
+//        }
+//
+//    }
 
-    }
-
-    )
+//    )
     private var isFilmSetAll: Boolean = true
 
     private lateinit var mainView: View
@@ -68,7 +86,7 @@ class MainFilmFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.filmRecyclerViewVertical.adapter = adapter
+//        binding.filmRecyclerViewVertical.adapter = adapter
         binding.buttonChangeFilmCategory.setOnClickListener {
             changeFilmDataInMainFragment()
         }
@@ -76,12 +94,69 @@ class MainFilmFragment : Fragment() {
         mainFilmsViewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
         mainFilmsViewModel.getFilmFromLocalSourceAllFilms()
 
-        // ================================
-        //  initCategoryRecyclerView()
-        //=================================
 
+        popularFilms = binding.filmRecyclerViewVertical
+        popularFilms.layoutManager = LinearLayoutManager(
+            context,
+            LinearLayoutManager.VERTICAL,
+            false
+        )
 
+        popularFilmsLayoutManager = popularFilms.layoutManager as LinearLayoutManager
+        popularFilmsAdapter = PopularFilmsAdapter(mutableListOf(), object : OnPopularFilmItemViewClickListener {
+            override fun onPopularFilmItemViewClick(film: Movie) {
+                val manager = activity?.supportFragmentManager
+                // Если manager не null...(let)
+                manager?.let {
+                    val bundle = Bundle()
+                    bundle.putParcelable(PopularFilmDetailFragment.POPULAR_BUNDLE_EXTRA, film)
+                    manager.beginTransaction()
+                        .replace(R.id.fragment_container, PopularFilmDetailFragment.newInstance(bundle))
+                        .addToBackStack("")
+                        .commitAllowingStateLoss()
+                }
+            }
+
+        })
+        popularFilms.adapter = popularFilmsAdapter
+
+        getPopularMovies()
     }
+
+    private fun attachPopularMoviesOnScrollListener() {
+        popularFilms.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                val totalItemCount = popularFilmsLayoutManager.itemCount
+                val visibleItemCount = popularFilmsLayoutManager.childCount
+                val firstVisibleItem = popularFilmsLayoutManager.findFirstVisibleItemPosition()
+
+                if (firstVisibleItem + visibleItemCount >= totalItemCount / 2) {
+                    popularFilms.removeOnScrollListener(this)
+                    popularFilmsPage++
+                    getPopularMovies()
+                }
+            }
+        })
+    }
+
+    private fun getPopularMovies() {
+        PopularFilmsRepository.getPopularMovies(
+            popularFilmsLanguage,
+            popularFilmsPage,
+            ::onPopularMoviesFetched,
+            ::onError
+        )
+    }
+
+    private fun onPopularMoviesFetched(movies: List<Movie>) {
+        popularFilmsAdapter.appendMovies(movies)
+        attachPopularMoviesOnScrollListener()
+    }
+
+    private fun onError() {
+        Toast.makeText(context, "ERROR<<<<<<<<<<<<<<<<<<<<", Toast.LENGTH_SHORT).show()
+    }
+
 
     private fun renderData(appState: AppState) {
         when (appState) {
@@ -90,12 +165,12 @@ class MainFilmFragment : Fragment() {
                 binding.filmRecyclerViewVertical.visibility = View.VISIBLE
                 binding.twPartName.visibility = View.VISIBLE
                 initCategoryRecyclerView()
-                adapter.setFilms(appState.cinemaData)
+             //   adapter.setFilms(appState.cinemaData)
 
                 binding.mainFragmentView.showSnackBarForSuccess(
                     getString(R.string.successData), 5000,
-                    {setColorSbBG()},
-                    {setTextSbColor(ContextCompat.getColor(context, R.color.item_rv_bg))}
+                    { setColorSbBG() },
+                    { setTextSbColor(ContextCompat.getColor(context, R.color.item_rv_bg)) }
                 )
             }
             is AppState.Loading -> {
@@ -108,16 +183,8 @@ class MainFilmFragment : Fragment() {
                 binding.mainFragmentView.showSnackBar(
                     getString(R.string.error),
                     getString(R.string.reloading),
-                    {mainFilmsViewModel.getFilmFromLocalSourceAllFilms()}
+                    { mainFilmsViewModel.getFilmFromLocalSourceAllFilms() }
                 )
-//                Snackbar.make(
-//                    binding.buttonChangeFilmCategory,
-//                    getString(R.string.error),
-//                    Snackbar.LENGTH_INDEFINITE
-//                )
-//                    .setAction(getString(R.string.reloading)) {
-//                        mainFilmsViewModel.getFilmFromLocalSourceAllFilms()
-//                    }.show()
             }
         }
     }
@@ -144,7 +211,8 @@ class MainFilmFragment : Fragment() {
 
     // Чтобы не было утечек - удаляем листенер из адаптера:
     override fun onDestroy() {
-        adapter.removeListener()
+      //  adapter.removeListener()
+        popularFilmsAdapter.removeListener()
         super.onDestroy()
     }
 
@@ -157,18 +225,14 @@ class MainFilmFragment : Fragment() {
         }
     }
 
-    private fun View.showSnackBar (
-        text: String, actionText: String, action: (View) -> Unit, length: Int = Snackbar.LENGTH_INDEFINITE
-    ) {Snackbar.make(this, text, length).setAction(actionText, action).show()}
-
-// ======== Сетим кастомные Экстеншены для SnackBar при Success: ===========
-    private fun View.showSnackBarForSuccess (
+    // ======== Сетим кастомные Экстеншены для SnackBar при Success: ===========
+    private fun View.showSnackBarForSuccess(
         text: String, length: Int, bg: Snackbar.() -> Unit, col: Snackbar.() -> Unit
     ) {
         val sBar = Snackbar.make(this, text, length)
-            sBar.bg()
-            sBar.col()
-            sBar.show()
+        sBar.bg()
+        sBar.col()
+        sBar.show()
     }
 
     private fun Snackbar.setColorSbBG() {

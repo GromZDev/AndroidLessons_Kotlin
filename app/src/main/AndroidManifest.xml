@@ -19,8 +19,6 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".view.loadingDataService.FilmDataLoadingService" />
-
         <receiver android:name=".view.MySystemBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.LOCALE_CHANGED" />

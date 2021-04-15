@@ -1,11 +1,10 @@
-package com.example.kotlin_lesson_1.view
+package com.example.kotlin_lesson_1.view.main
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlin_lesson_1.R
 import com.example.kotlin_lesson_1.model.FilmFeature
@@ -29,13 +28,13 @@ class MainFilmFragmentAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): MainFilmFragmentAdapter.FilmViewHolder = FilmViewHolder(
+    ): FilmViewHolder = FilmViewHolder(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_film_recycler_view_vertical, parent, false) as View
         )
 
 
-    override fun onBindViewHolder(holder: MainFilmFragmentAdapter.FilmViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: FilmViewHolder, position: Int) {
         holder.bind(filmsData[position])
     }
 

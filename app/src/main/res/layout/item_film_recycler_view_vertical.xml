@@ -46,11 +46,10 @@
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
         android:background="@drawable/ic_film_time_length"
         android:contentDescription="@string/film_rating_image"
-        app:layout_constraintStart_toEndOf="@id/item_film_image"
-        app:layout_constraintTop_toBottomOf="@id/item_rating_image" />
+        app:layout_constraintStart_toEndOf="@+id/item_film_rating"
+        app:layout_constraintTop_toTopOf="@id/item_film_rating"/>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/item_film_rating"
@@ -67,10 +66,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
         android:textSize="24sp"
         app:layout_constraintStart_toEndOf="@id/item_time_length_image"
-        app:layout_constraintTop_toBottomOf="@id/item_film_rating"
+        app:layout_constraintTop_toTopOf="@id/item_time_length_image"
         tools:text="125" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -78,11 +76,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
+        android:layout_marginStart="12dp"
         android:text="@string/min"
         android:textAlignment="center"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/item_film_time_length"
-        app:layout_constraintStart_toStartOf="@id/item_film_time_length"
+        app:layout_constraintStart_toEndOf="@id/item_time_length_image"
         app:layout_constraintTop_toTopOf="@id/item_time_length_image"
         tools:text="мин" />
 
@@ -91,21 +89,21 @@
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/ic_film_year"
         android:contentDescription="@string/film_year_icon"
-        app:layout_constraintStart_toEndOf="@id/item_film_time_word"
-        app:layout_constraintTop_toTopOf="@id/item_film_rating" />
+        app:layout_constraintStart_toEndOf="@id/item_film_image"
+        app:layout_constraintTop_toBottomOf="@id/item_rating_image" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/item_film_year"
         android:layout_width="wrap_content"
         android:layout_height="36dp"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:textAlignment="textEnd"
         android:textSize="24sp"
         app:layout_constraintStart_toEndOf="@id/item_film_year_image"
-        app:layout_constraintTop_toTopOf="@id/item_film_rating"
+        app:layout_constraintTop_toTopOf="@id/item_film_year_image"
         tools:text="2020" />
 
 
