@@ -1,4 +1,4 @@
-package com.example.kotlin_lesson_1.view.main
+package com.example.kotlin_lesson_1.view.popularFilms
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.example.kotlin_lesson_1.R
 import com.example.kotlin_lesson_1.model.dto.Movie
+import com.example.kotlin_lesson_1.view.main.MainFilmFragment
 
 class PopularFilmsAdapter(
     private var movies: MutableList<Movie>,
