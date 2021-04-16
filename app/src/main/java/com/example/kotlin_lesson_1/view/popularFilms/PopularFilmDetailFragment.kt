@@ -26,8 +26,8 @@ class PopularFilmDetailFragment : Fragment() {
     private lateinit var popularFilmsBundle: Movie
 
     // =============  1 Объявляем SharedPreferences и контекст для него ==============
-    lateinit var popularContext: Context
-    lateinit var sharedPref: SharedPreferences
+    private lateinit var popularContext: Context
+    private lateinit var sharedPref: SharedPreferences
 // ===============================================================================
 
     private val popularFilmsViewModel: PopularFilmDetailsViewModel by lazy {
