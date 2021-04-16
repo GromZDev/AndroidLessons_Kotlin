@@ -1,11 +1,14 @@
 package com.example.kotlin_lesson_1.view
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.example.kotlin_lesson_1.databinding.FragmentPopularFilmDetailsBinding
@@ -20,10 +23,10 @@ class PopularFilmDetailFragment : Fragment() {
 
     private lateinit var popularFilmsBundle: Movie
 
-//    private val oneFilmViewModelDetails: OneFilmViewModel by lazy {
-//        ViewModelProvider(this).get(OneFilmViewModel::class.java)
-//    }
-
+    // =============  1 Объявляем SharedPreferences и контекст для него ==============
+    lateinit var popularContext: Context
+    lateinit var sharedPref: SharedPreferences
+// ===============================================================================
 
     companion object {
         const val POPULAR_BUNDLE_EXTRA = "MY_Popular_Film"
@@ -43,6 +46,10 @@ class PopularFilmDetailFragment : Fragment() {
         _binding = FragmentPopularFilmDetailsBinding.inflate(inflater, container, false)
         mainView = binding.root
 
+// ==================  2 Инициируем преференции и берем контекст =================
+        popularContext = context!!
+        sharedPref = popularContext.getSharedPreferences("My-Pref", Context.MODE_PRIVATE)
+// ===============================================================================
         return mainView
     }
 
@@ -64,29 +71,14 @@ class PopularFilmDetailFragment : Fragment() {
 //            Observer { renderOneFilmData(it) })
 //        oneFilmViewModelDetails.getOneFilmFromRemoteSource()
 
+
+// =========== 4 Берем сохранённую строку из преференций и сетим в тост ==========
+        loadPreviousFilmTitleFromSharedPreferences()
+// ===============================================================================
+
         setFilm(popularFilmsBundle)
 
     }
-
-//    private fun renderOneFilmData(appState: AppState) {
-//        when (appState) {
-//            is AppState.Success -> {
-//                binding.filmDetailsFragment.visibility = View.VISIBLE
-//                setFilm(appState.cinemaData[0])
-//            }
-//            is AppState.Loading -> {
-//                binding.filmDetailsFragment.visibility = View.GONE
-//            }
-//            is AppState.Error -> {
-//                binding.filmDetailsFragment.visibility = View.VISIBLE
-//                binding.filmDetailsFragment.showSnackBar(getString(R.string.error),
-//                    getString(R.string.reloading),
-//                    {
-//                        oneFilmViewModelDetails.getOneFilmFromRemoteSource()
-//                    })
-//            }
-//        }
-//    }
 
     private fun setFilm(filmData: Movie) {
 
@@ -106,5 +98,25 @@ class PopularFilmDetailFragment : Fragment() {
             android.graphics.PorterDuff.Mode.MULTIPLY
         )
 
+// =========== 3 Записываем в SharedPref тайтл просматриваемого фильма ===========
+        saveFilmTitleToSharedPreferences()
+// ===============================================================================
+    }
+
+    private fun saveFilmTitleToSharedPreferences() {
+        val filmTitle: String = binding.twPopularFilmName.text.toString()
+        with(sharedPref.edit()) {
+            this?.putString("FilmTitle", "В прошлый раз Вы просматривали $filmTitle")
+            this?.commit()
+        }
+    }
+
+    fun loadPreviousFilmTitleFromSharedPreferences() {
+        val previousFilmTitle = sharedPref.getString("FilmTitle", "")
+        if (previousFilmTitle.equals("") || previousFilmTitle == null) {
+            return
+        } else {
+            Toast.makeText(popularContext, previousFilmTitle, Toast.LENGTH_LONG).show()
+        }
     }
 }
