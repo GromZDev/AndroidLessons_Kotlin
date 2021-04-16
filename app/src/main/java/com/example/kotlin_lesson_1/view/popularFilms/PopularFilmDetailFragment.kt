@@ -1,4 +1,4 @@
-package com.example.kotlin_lesson_1.view
+package com.example.kotlin_lesson_1.view.popularFilms
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -11,8 +11,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.kotlin_lesson_1.databinding.FragmentPopularFilmDetailsBinding
 import com.example.kotlin_lesson_1.model.dto.Movie
+import com.example.kotlin_lesson_1.viewModel.PopularFilmDetailsViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_popular_film_details.*
 
@@ -27,6 +29,10 @@ class PopularFilmDetailFragment : Fragment() {
     lateinit var popularContext: Context
     lateinit var sharedPref: SharedPreferences
 // ===============================================================================
+
+    private val popularFilmsViewModel: PopularFilmDetailsViewModel by lazy {
+        ViewModelProvider(this).get(PopularFilmDetailsViewModel::class.java)
+    }
 
     companion object {
         const val POPULAR_BUNDLE_EXTRA = "MY_Popular_Film"
@@ -81,6 +87,7 @@ class PopularFilmDetailFragment : Fragment() {
     }
 
     private fun setFilm(filmData: Movie) {
+        saveThisMovie(filmData)
 
         binding.twPopularFilmName.text = filmData.title
         binding.twPopularFilmYear.text = filmData.releaseDate
@@ -111,7 +118,7 @@ class PopularFilmDetailFragment : Fragment() {
         }
     }
 
-    fun loadPreviousFilmTitleFromSharedPreferences() {
+    private fun loadPreviousFilmTitleFromSharedPreferences() {
         val previousFilmTitle = sharedPref.getString("FilmTitle", "")
         if (previousFilmTitle.equals("") || previousFilmTitle == null) {
             return
@@ -119,4 +126,20 @@ class PopularFilmDetailFragment : Fragment() {
             Toast.makeText(popularContext, previousFilmTitle, Toast.LENGTH_LONG).show()
         }
     }
+
+    private fun saveThisMovie(movie: Movie) {
+        popularFilmsViewModel.saveMovieToDB(
+            Movie(
+                movie.id,
+                movie.title,
+                movie.overview,
+                movie.posterPath,
+                movie.backdropPath,
+                movie.rating,
+                movie.releaseDate
+            )
+        )
+    }
+
 }
+
