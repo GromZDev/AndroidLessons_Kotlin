@@ -15,4 +15,5 @@
 
     <string name="successData">All Films updated successfully!</string>
     <string name="reloadAgain">Reload again</string>
+    <string name="history_top_text">Ваши просмотренные видео:</string>
 </resources>
