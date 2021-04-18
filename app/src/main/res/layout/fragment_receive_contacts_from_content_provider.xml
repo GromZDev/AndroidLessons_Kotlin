@@ -3,12 +3,15 @@
     android:layout_height="match_parent"
     android:background="@color/detail_fragment_bg">
 
-    <LinearLayout
+    <com.google.android.material.circularreveal.CircularRevealLinearLayout
         android:id="@+id/containerForContacts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp" />
+        android:padding="16dp"
+        android:paddingTop="8dp"
+        android:layout_margin="12dp"
+        android:background="@drawable/item_film_recycler_background"/>
 
 </ScrollView>
 
