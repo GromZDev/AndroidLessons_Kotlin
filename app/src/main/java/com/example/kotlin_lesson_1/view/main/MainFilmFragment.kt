@@ -21,7 +21,7 @@ import com.example.kotlin_lesson_1.utils.showSnackBar
 import com.example.kotlin_lesson_1.view.popularFilms.PopularFilmDetailFragment
 import com.example.kotlin_lesson_1.view.category_RV.FilmCategoryAdapter
 import com.example.kotlin_lesson_1.view.popularFilms.PopularFilmsAdapter
-import com.example.kotlin_lesson_1.viewModel.AppState
+import com.example.kotlin_lesson_1.viewModel.appStates.AppState
 import com.example.kotlin_lesson_1.viewModel.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_film_main.*

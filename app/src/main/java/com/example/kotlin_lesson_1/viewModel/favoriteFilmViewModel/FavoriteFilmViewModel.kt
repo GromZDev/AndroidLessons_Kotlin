@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.example.kotlin_lesson_1.app.App
 import com.example.kotlin_lesson_1.repository.roomFavoriteRepository.RoomFavoriteLocalRepository
 import com.example.kotlin_lesson_1.repository.roomFavoriteRepository.RoomFavoriteLocalRepositoryImpl
-import com.example.kotlin_lesson_1.viewModel.AppStateFavorite
+import com.example.kotlin_lesson_1.viewModel.appStates.AppStateFavorite
 
 class FavoriteFilmViewModel(
     val favoriteFilmLiveData: MutableLiveData<AppStateFavorite> = MutableLiveData(),

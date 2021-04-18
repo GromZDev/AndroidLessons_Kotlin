@@ -5,7 +5,7 @@ import com.example.kotlin_lesson_1.model.Film
 import com.example.kotlin_lesson_1.model.FilmFeature
 import com.example.kotlin_lesson_1.model.dto.Movie
 import com.example.kotlin_lesson_1.model.dto.OneFilmDTO
-import com.example.kotlin_lesson_1.room.FilmHistoryEntity
+import com.example.kotlin_lesson_1.room.filmHistory.FilmHistoryEntity
 import com.example.kotlin_lesson_1.room.filmFavorite.FilmFavoriteEntity
 
 fun convertOneFilmDtoToModel(oneFilmDTO: OneFilmDTO): List<FilmFeature> {

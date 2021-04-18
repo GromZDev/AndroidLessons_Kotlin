@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.kotlin_lesson_1.databinding.FragmentPopularFilmDetailsBinding
 import com.example.kotlin_lesson_1.model.dto.Movie
-import com.example.kotlin_lesson_1.viewModel.PopularFilmDetailsViewModel
+import com.example.kotlin_lesson_1.viewModel.popularFilmViewModel.PopularFilmDetailsViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_popular_film_details.*
 

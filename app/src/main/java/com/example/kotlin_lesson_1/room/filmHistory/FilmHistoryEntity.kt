@@ -1,4 +1,4 @@
-package com.example.kotlin_lesson_1.room
+package com.example.kotlin_lesson_1.room.filmHistory
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

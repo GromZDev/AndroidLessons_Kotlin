@@ -2,8 +2,8 @@ package com.example.kotlin_lesson_1.app
 
 import android.app.Application
 import androidx.room.Room
-import com.example.kotlin_lesson_1.room.FilmHistoryDao
-import com.example.kotlin_lesson_1.room.RoomDB
+import com.example.kotlin_lesson_1.room.filmHistory.FilmHistoryDao
+import com.example.kotlin_lesson_1.room.filmHistory.RoomDB
 import com.example.kotlin_lesson_1.room.filmFavorite.FilmFavoriteDao
 import com.example.kotlin_lesson_1.room.filmFavorite.RoomFavoriteFilmDB
 import java.lang.IllegalStateException

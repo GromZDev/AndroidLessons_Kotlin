@@ -1,4 +1,4 @@
-package com.example.kotlin_lesson_1.viewModel
+package com.example.kotlin_lesson_1.viewModel.appStates
 
 import com.example.kotlin_lesson_1.model.FilmFeature
 

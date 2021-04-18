@@ -1,4 +1,4 @@
-package com.example.kotlin_lesson_1.viewModel
+package com.example.kotlin_lesson_1.viewModel.popularFilmViewModel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +9,7 @@ import com.example.kotlin_lesson_1.repository.roomFavoriteRepository.RoomFavorit
 import com.example.kotlin_lesson_1.repository.roomFavoriteRepository.RoomFavoriteLocalRepositoryImpl
 import com.example.kotlin_lesson_1.repository.roomHistoryRepository.RoomLocalRepository
 import com.example.kotlin_lesson_1.repository.roomHistoryRepository.RoomLocalRepositoryImpl
+import com.example.kotlin_lesson_1.viewModel.appStates.AppStateHistory
 
 class PopularFilmDetailsViewModel(
     val popularDetailsLiveData: MutableLiveData<AppStateHistory> = MutableLiveData(),

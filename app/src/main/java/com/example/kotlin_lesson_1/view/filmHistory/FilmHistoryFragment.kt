@@ -9,8 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.kotlin_lesson_1.databinding.FragmentFilmHistoryBinding
 import com.example.kotlin_lesson_1.utils.showSnackBar
-import com.example.kotlin_lesson_1.viewModel.AppStateHistory
-import com.example.kotlin_lesson_1.viewModel.FilmHistoryViewModel
+import com.example.kotlin_lesson_1.viewModel.appStates.AppStateHistory
+import com.example.kotlin_lesson_1.viewModel.filmHistoryViewModel.FilmHistoryViewModel
 import kotlinx.android.synthetic.main.fragment_film_history.*
 
 class FilmHistoryFragment : Fragment() {

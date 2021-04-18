@@ -1,7 +1,7 @@
 package com.example.kotlin_lesson_1.repository.roomHistoryRepository
 
 import com.example.kotlin_lesson_1.model.dto.Movie
-import com.example.kotlin_lesson_1.room.FilmHistoryDao
+import com.example.kotlin_lesson_1.room.filmHistory.FilmHistoryDao
 import com.example.kotlin_lesson_1.utils.convertFilmHistoryEntityToMovie
 import com.example.kotlin_lesson_1.utils.convertMovieToEntity
 

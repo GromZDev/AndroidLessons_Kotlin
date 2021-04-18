@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.kotlin_lesson_1.databinding.FragmentFilmFavoriteBinding
 import com.example.kotlin_lesson_1.utils.showSnackBar
-import com.example.kotlin_lesson_1.viewModel.AppStateFavorite
+import com.example.kotlin_lesson_1.viewModel.appStates.AppStateFavorite
 import com.example.kotlin_lesson_1.viewModel.favoriteFilmViewModel.FavoriteFilmViewModel
 import kotlinx.android.synthetic.main.fragment_film_favorite.*
 
