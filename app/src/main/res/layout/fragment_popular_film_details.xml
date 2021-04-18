@@ -102,5 +102,26 @@
         app:layout_constraintTop_toTopOf="@id/iw_popular_film_image"
         tools:text="Film Description" />
 
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/sw_film_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginEnd="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/popular_time_length_image_description_fragment"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tw_item_film_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="textEnd"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:text="@string/add_to_favorite"
+        app:layout_constraintStart_toStartOf="@+id/sw_film_switch"
+        app:layout_constraintEnd_toEndOf="@+id/sw_film_switch"
+        app:layout_constraintTop_toBottomOf="@+id/sw_film_switch"
+        tools:text="Add to Favorite" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
