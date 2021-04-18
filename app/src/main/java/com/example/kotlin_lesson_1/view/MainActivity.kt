@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.kotlin_lesson_1.R
 import com.example.kotlin_lesson_1.view.filmFavorite.FilmFavoriteFragment
 import com.example.kotlin_lesson_1.view.filmHistory.FilmHistoryFragment
+import com.example.kotlin_lesson_1.view.gettingContacts.GettingContactsFragment
 import com.example.kotlin_lesson_1.view.main.MainFilmFragment
 
 class MainActivity : AppCompatActivity() {
@@ -61,6 +62,15 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.apply {
                     beginTransaction()
                         .replace(R.id.fragment_container, FilmFavoriteFragment.newInstance())
+                        .addToBackStack("")
+                        .commitAllowingStateLoss()
+                }
+                true
+            }
+            R.id.menu_get_contacts -> {
+                supportFragmentManager.apply {
+                    beginTransaction()
+                        .replace(R.id.fragment_container, GettingContactsFragment.newInstance())
                         .addToBackStack("")
                         .commitAllowingStateLoss()
                 }

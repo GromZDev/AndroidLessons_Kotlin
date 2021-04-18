@@ -12,4 +12,10 @@
         android:icon="@drawable/ic_favorite_film"
         android:title="Любимые фильмы"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_get_contacts"
+        android:icon="@drawable/ic_baseline_call_"
+        android:title="Список контактов"
+        app:showAsAction="ifRoom" />
 </menu>
