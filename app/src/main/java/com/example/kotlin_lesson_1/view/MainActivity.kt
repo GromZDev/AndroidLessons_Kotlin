@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kotlin_lesson_1.R
+import com.example.kotlin_lesson_1.view.filmFavorite.FilmFavoriteFragment
 import com.example.kotlin_lesson_1.view.filmHistory.FilmHistoryFragment
 import com.example.kotlin_lesson_1.view.main.MainFilmFragment
 
@@ -51,6 +52,15 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.apply {
                     beginTransaction()
                         .replace(R.id.fragment_container, FilmHistoryFragment.newInstance())
+                        .addToBackStack("")
+                        .commitAllowingStateLoss()
+                }
+                true
+            }
+            R.id.menu_favorite -> {
+                supportFragmentManager.apply {
+                    beginTransaction()
+                        .replace(R.id.fragment_container, FilmFavoriteFragment.newInstance())
                         .addToBackStack("")
                         .commitAllowingStateLoss()
                 }
