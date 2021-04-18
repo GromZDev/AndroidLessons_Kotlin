@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.kotlin_lesson_1.databinding.FragmentPopularFilmDetailsBinding
@@ -108,6 +109,13 @@ class PopularFilmDetailFragment : Fragment() {
 // =========== 3 Записываем в SharedPref тайтл просматриваемого фильма ===========
         saveFilmTitleToSharedPreferences()
 // ===============================================================================
+        val switch: SwitchCompat = binding.swFilmSwitch
+
+        switch.setOnClickListener {
+            saveThisMovieToFavorite(filmData)
+        }
+
+
     }
 
     private fun saveFilmTitleToSharedPreferences() {
@@ -139,6 +147,21 @@ class PopularFilmDetailFragment : Fragment() {
                 movie.releaseDate
             )
         )
+    }
+
+    private fun saveThisMovieToFavorite(favoriteMovie: Movie) {
+        popularFilmsViewModel.saveFavoriteMovieToDB(
+            Movie(
+                favoriteMovie.id,
+                favoriteMovie.title,
+                favoriteMovie.overview,
+                favoriteMovie.posterPath,
+                favoriteMovie.backdropPath,
+                favoriteMovie.rating,
+                favoriteMovie.releaseDate
+            )
+        )
+
     }
 
 }
