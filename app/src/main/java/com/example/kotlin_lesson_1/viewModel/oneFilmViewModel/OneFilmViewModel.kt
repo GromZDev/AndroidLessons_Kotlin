@@ -7,7 +7,7 @@ import com.example.kotlin_lesson_1.repository.oneFilmRepository.OneFilmDetailsRe
 import com.example.kotlin_lesson_1.repository.oneFilmRepository.OneFilmDetailsRepositoryImpl
 import com.example.kotlin_lesson_1.repository.oneFilmRepository.OneFilmRemoteDataSource
 import com.example.kotlin_lesson_1.utils.convertOneFilmDtoToModel
-import com.example.kotlin_lesson_1.viewModel.AppState
+import com.example.kotlin_lesson_1.viewModel.appStates.AppState
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

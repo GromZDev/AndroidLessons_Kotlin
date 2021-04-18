@@ -1,4 +1,4 @@
-package com.example.kotlin_lesson_1.view
+package com.example.kotlin_lesson_1.view.filmDetails
 
 import android.graphics.Color
 import android.os.Build
@@ -13,9 +13,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.kotlin_lesson_1.R
 import com.example.kotlin_lesson_1.databinding.FragmentFilmDetailsBinding
 import com.example.kotlin_lesson_1.model.FilmFeature
-import com.example.kotlin_lesson_1.model.getDefaultFilm
 import com.example.kotlin_lesson_1.utils.showSnackBar
-import com.example.kotlin_lesson_1.viewModel.AppState
+import com.example.kotlin_lesson_1.viewModel.appStates.AppState
 import com.example.kotlin_lesson_1.viewModel.oneFilmViewModel.OneFilmViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_film_details.*
@@ -25,8 +24,6 @@ class FilmDetailFragment : Fragment() {
     private var _binding: FragmentFilmDetailsBinding? = null // Наш binding class этого лэйаута
     private val binding get() = _binding!!
     private lateinit var mainView: View
-
-    private lateinit var filmsBundle: FilmFeature
 
     private val oneFilmViewModelDetails: OneFilmViewModel by lazy {
         ViewModelProvider(this).get(OneFilmViewModel::class.java)

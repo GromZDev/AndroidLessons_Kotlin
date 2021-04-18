@@ -1,0 +1,65 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_film_container_rv_vertical"
+    style="@style/MyFilmRecyclerItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/history_recyclerView_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Film Name" />
+
+    <ImageView
+        android:id="@+id/history_item_rating_image"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/ic_film_rating"
+        android:contentDescription="@string/film_rating_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/history_recyclerView_name" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/history_item_film_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_marginStart="8dp"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/history_item_rating_image"
+        app:layout_constraintTop_toTopOf="@+id/history_item_rating_image"
+        tools:text="9.9" />
+
+    <ImageView
+        android:id="@+id/history_item_film_year_image"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/ic_film_year"
+        android:contentDescription="@string/film_year_icon"
+        app:layout_constraintStart_toEndOf="@+id/history_item_film_rating"
+        app:layout_constraintTop_toTopOf="@+id/history_item_film_rating" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/history_item_film_year"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_marginStart="8dp"
+        android:textAlignment="textEnd"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/history_item_film_year_image"
+        app:layout_constraintTop_toTopOf="@+id/history_item_film_year_image"
+        tools:text="2020" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

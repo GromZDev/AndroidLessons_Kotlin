@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.kotlin_lesson_1.repository.Repository
 import com.example.kotlin_lesson_1.repository.RepositoryImpl
+import com.example.kotlin_lesson_1.viewModel.appStates.AppState
 import java.lang.Thread.sleep
 
 class MainViewModel(
@@ -22,7 +23,8 @@ class MainViewModel(
         liveDataToObserve.value = AppState.Loading
         Thread {
             sleep(1000) // Теперь берем данные из списков:
-            liveDataToObserve.postValue(AppState.Success(if (isAllFilms)
+            liveDataToObserve.postValue(
+                AppState.Success(if (isAllFilms)
                 repositoryImpl.getFilmFromLocalStorageAllFilms() else
                 repositoryImpl.getFilmFromLocalStoragePopularFilms()))
         }.start()
