@@ -18,4 +18,5 @@
     <string name="history_top_text">Ваши просмотренные видео:</string>
     <string name="my_favorite_films">Мои любимые фильмы</string>
     <string name="add_to_favorite">Add to Favorite</string>
+    <string name="favorite_film_icon">Favorite Film icon</string>
 </resources>
