@@ -6,8 +6,12 @@ import android.content.ContentResolver
 import android.content.Context
 import android.content.pm.PackageManager
 import android.database.Cursor
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Contacts.PhonesColumns.NUMBER
 import android.provider.ContactsContract
+import android.provider.ContactsContract.ProviderStatus.STATUS
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +19,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlin_lesson_1.databinding.FragmentReceiveContactsFromContentProviderBinding
+import com.example.kotlin_lesson_1.model.ContactsDTO
+import com.example.kotlin_lesson_1.view.filmHistory.FilmHistoryAdapter
+import kotlinx.android.synthetic.main.fragment_film_history.*
+import kotlinx.android.synthetic.main.fragment_receive_contacts_from_content_provider.*
+import java.util.ArrayList
 
 const val REQUEST_CODE_FOR_CONTACTS = 578
 
@@ -23,6 +33,8 @@ class GettingContactsFragment : Fragment() {
 
     private var _binding: FragmentReceiveContactsFromContentProviderBinding? = null
     private val binding get() = _binding!!
+    val contactsList: MutableList<ContactsDTO> = ArrayList()
+
 
     companion object {
         fun newInstance(): GettingContactsFragment {
@@ -128,26 +140,46 @@ class GettingContactsFragment : Fragment() {
             // Отправляем запрос на получение контактов и получаем ответ в виде Cursor'а. У контент
             // резолвера вызываем метод query()/ Тут надо указать:
             val cursorWithContacts: Cursor = contentResolver.query(
-                ContactsContract.Contacts.CONTENT_URI, // // Откуда берём данные. URI - адрес, где
-    // находятся наши данные.
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI, // // Откуда берём данные. URI - адрес, где
+                // находятся наши данные.
                 null, // тут указываем что нам надо (если только номер, или имя,
                 // null - все берем)
                 null, // выборка. Например нам нужны контакты, имя которых начин-ся с А...
                 null, // Подстановки в запрос.
                 ContactsContract.Contacts.DISPLAY_NAME + " ASC" // Как мы будем сортировать
-    // наши элементы
+                // наши элементы
             ) ?: return // если курсор равен налл, то return
 
-    // В курсоре двигаемся к первому элементу и начинаем двигаться по всем остальным через цикл.
+            // В курсоре двигаемся к первому элементу и начинаем двигаться по всем остальным через цикл.
             cursorWithContacts.let { cursor ->
                 for (i in 0..cursor.count) {
                     // Переходим на позицию в Cursor’е
                     if (cursor.moveToPosition(i)) {
                         // Берём из Cursor’а столбец с именем, достаем данные через getString
                         val name =
-                            cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
-                        addView(it, name)
+                            cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
+                        //   addView(it, name)
+                        val number =
+                            cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+                        //    addView(it, name)
+                        val photoUri =
+                            cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI))
+
+                        val obj = ContactsDTO()
+                        obj.name = name
+                        obj.number = number
+
+                        if (photoUri != null) {
+                            obj.image = MediaStore.Images.Media.getBitmap(
+                                contentResolver,
+                                Uri.parse(photoUri)
+                            )
+                        }
+                        contactsList.add(obj)
                     }
+
+                    val adapter: ContactsAdapter by lazy { ContactsAdapter(contactsList, context) }
+                    contact_list_rv.adapter = adapter
                 }
             }
             cursorWithContacts.close()
@@ -156,10 +188,11 @@ class GettingContactsFragment : Fragment() {
 
     // Тут просто добавляем вьюху
     private fun addView(context: Context, textToShow: String) {
-        binding.containerForContacts.addView(AppCompatTextView(context).apply {
-            text = textToShow
-            textSize = 24.0f
-        })
+
+//        binding.containerForContacts.addView(AppCompatTextView(context).apply {
+//            text = textToShow
+//            textSize = 24.0f
+//        })
     }
 
     override fun onDestroyView() {
