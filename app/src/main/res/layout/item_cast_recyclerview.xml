@@ -1,0 +1,72 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="160dp"
+    android:layout_height="180dp"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp">
+
+    <FrameLayout
+        android:id="@+id/cast_item_cat_frame"
+        android:layout_width="160dp"
+        android:layout_height="180dp"
+        android:background="@drawable/item_category_recycler_background"
+        android:layout_gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/cast_top_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            tools:text="Text View" />
+    </FrameLayout>
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/cast_imageView"
+        app:shapeAppearanceOverlay="@style/ItemSpecificRounded"
+        android:layout_width="90dp"
+        android:layout_height="128dp"
+        android:contentDescription="@string/actor_image"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/cast_item_cat_frame" />
+
+    <ImageView
+        android:id="@+id/cast_point"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_baseline_place"
+        app:layout_constraintStart_toEndOf="@+id/cast_imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cast_imageView"
+        android:contentDescription="@string/place_point" />
+
+    <TextView
+        android:id="@+id/cast_findText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:textAlignment="center"
+        android:text="@string/birth_place"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        tools:text="Birth place"
+        app:layout_constraintStart_toEndOf="@+id/cast_imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cast_point"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

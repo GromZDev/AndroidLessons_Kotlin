@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.example.kotlin_lesson_1.R
 import com.example.kotlin_lesson_1.model.credits.Cast
+import kotlinx.android.synthetic.main.item_cast_recyclerview.view.*
 import kotlinx.android.synthetic.main.item_category_film_recyclerview.view.*
 
 class CastsAdapter : RecyclerView.Adapter<CastsAdapter.CastViewHolder>() {
@@ -18,7 +19,7 @@ class CastsAdapter : RecyclerView.Adapter<CastsAdapter.CastViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CastViewHolder {
         val view = LayoutInflater
             .from(parent.context)
-            .inflate(R.layout.item_category_film_recyclerview, parent, false)
+            .inflate(R.layout.item_cast_recyclerview, parent, false)
         return CastViewHolder(view)
     }
 
@@ -35,14 +36,14 @@ class CastsAdapter : RecyclerView.Adapter<CastsAdapter.CastViewHolder>() {
 
     inner class CastViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val poster: ImageView = itemView.findViewById(R.id.film_category_imageView)
+        private val poster: ImageView = itemView.findViewById(R.id.cast_imageView)
 
         fun bind(cast: Cast) {
             Glide.with(itemView)
                 .load("https://image.tmdb.org/t/p/w342${cast.profile_path}")
                 .transform(CenterCrop())
                 .into(poster)
-            itemView.child_textView.text = cast.name
+            itemView.cast_top_textView.text = cast.name
 
 
 
