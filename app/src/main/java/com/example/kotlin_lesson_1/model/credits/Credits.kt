@@ -1,10 +1,15 @@
 package com.example.kotlin_lesson_1.model.credits
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+
 data class Credits(
     val id: Long,
     val cast: List<Cast>
 )
 
+@Parcelize
 data class Cast(
     val id: Long,
     val cast_id: Long,
@@ -13,4 +18,4 @@ data class Cast(
     val gender: Int?,
     val name: String,
     val profile_path: String?
-)
+): Parcelable

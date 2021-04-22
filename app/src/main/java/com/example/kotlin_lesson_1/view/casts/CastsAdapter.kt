@@ -1,25 +1,32 @@
 package com.example.kotlin_lesson_1.view.casts
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.example.kotlin_lesson_1.R
 import com.example.kotlin_lesson_1.model.credits.Cast
+import com.example.kotlin_lesson_1.view.maps.MapsFragment
 import kotlinx.android.synthetic.main.item_cast_recyclerview.view.*
-import kotlinx.android.synthetic.main.item_category_film_recyclerview.view.*
 
 class CastsAdapter : RecyclerView.Adapter<CastsAdapter.CastViewHolder>() {
 
     private var castList: List<Cast> = arrayListOf()
+    private lateinit var fragmentManager: FragmentManager // Нужен для получения контекста ниже для
+    // передачи в транзакцию
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CastViewHolder {
         val view = LayoutInflater
             .from(parent.context)
             .inflate(R.layout.item_cast_recyclerview, parent, false)
+        fragmentManager =
+            (view.context as FragmentActivity).supportFragmentManager // получаю менеджер
         return CastViewHolder(view)
     }
 
@@ -48,7 +55,15 @@ class CastsAdapter : RecyclerView.Adapter<CastsAdapter.CastViewHolder>() {
 
 
             itemView.setOnClickListener {
-                //    onPopularFilmItemViewClickListener?.onPopularFilmItemViewClick(movie) // Вызываем слушатель нажатия
+                val bundle = Bundle()
+                bundle.putParcelable(MapsFragment.BUNDLE_MAP_EXTRA, cast)
+                fragmentManager.beginTransaction()
+                    .replace(
+                        R.id.fragment_container,
+                        MapsFragment.newInstance(bundle)
+                    )
+                    .addToBackStack("")
+                    .commitAllowingStateLoss()
             }
         }
     }
