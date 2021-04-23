@@ -16,7 +16,9 @@ import com.example.kotlin_lesson_1.R
 import com.example.kotlin_lesson_1.databinding.FragmentMapsBinding
 import com.example.kotlin_lesson_1.model.credits.Cast
 import com.example.kotlin_lesson_1.model.gettingPersonIdForPerson.PersonForId
+import com.example.kotlin_lesson_1.model.person.Person
 import com.example.kotlin_lesson_1.repository.creditForPersonRepository.CreditForPersonRepository
+import com.example.kotlin_lesson_1.repository.person.PersonRepository
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -41,6 +43,7 @@ class MapsFragment : Fragment() {
 
     private lateinit var creditID: String
     private var personID: Int = 0
+    private lateinit var personPlaceOfBirth: String
 
     //     callback, он вызовется, когда карта будет готова к отображению и с ней можно будет работать
     private val callback = OnMapReadyCallback { googleMap ->
@@ -225,11 +228,24 @@ class MapsFragment : Fragment() {
 
     private fun onCreditIdFetched(actors: PersonForId) {
         personID = actors.id
-        Toast.makeText(context, personID.toString(), Toast.LENGTH_LONG).show()
+        getPersonDataBirth(personID)
+    }
 
+    private fun getPersonDataBirth(personID: Int) {
+        PersonRepository.getPersonData(
+            "ru",
+            personID,
+            ::onPersonDataFetched,
+            ::onError
+        )
     }
 
     private fun onError() {
         Toast.makeText(context, "ERROR<<<<<<<<<<<<<<<<<<<<", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun onPersonDataFetched(person: Person) {
+        personPlaceOfBirth = person.place_of_birth.toString()
+        Toast.makeText(context, personPlaceOfBirth, Toast.LENGTH_LONG).show()
     }
 }
