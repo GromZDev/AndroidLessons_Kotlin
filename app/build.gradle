@@ -29,12 +29,6 @@ android {
                 ())
         def apiKey = properties.getProperty("my-api-key", "")
         it.buildConfigField "String", "FILM_API_KEY", apiKey
-
-        Properties googleMapProperties = new Properties()
-        googleMapProperties.load(project.rootProject.file("googleMapApikey.properties").newDataInputStream
-                ())
-        def googleMapApiKey = googleMapProperties.getProperty("my-map-api-key", "")
-        it.buildConfigField "String", "GOOGLE_MAP_API_KEY", googleMapApiKey
     }
 
     buildTypes {
