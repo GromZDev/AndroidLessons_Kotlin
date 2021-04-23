@@ -27,7 +27,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import kotlinx.android.synthetic.main.fragment_maps.*
 import java.io.IOException
 
 const val REQUEST_CODE_FOR_MAPS = 723
@@ -77,7 +76,6 @@ class MapsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val castList: List<Cast> = mutableListOf()
         actorsIdBundle = arguments?.getParcelable(BUNDLE_MAP_EXTRA) ?: Cast(
             0, 0, "1", "1", 0, "1", "1"
         )
@@ -96,7 +94,7 @@ class MapsFragment : Fragment() {
 
                     getMapData() // Если уже получено разрешение, то получаем контакты далее
 
-                    initSearchByAddress()
+                    getPersonID(creditID)
                 }
                 // Метод для нас, чтобы знали когда необходимы пояснения показывать перед запросом:
                 shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
@@ -163,26 +161,20 @@ class MapsFragment : Fragment() {
         }
     }
 
-    private fun initSearchByAddress() {
+    private fun initActorBirthPlace(place: String) {
 
-        binding.mapButtonSearch.setOnClickListener {
-            getPersonID(creditID)
-
-            //   Toast.makeText(context, creditId, Toast.LENGTH_LONG).show()
-
-            val geoCoder = Geocoder(it.context)
-            val searchText = map_searchAddress.text.toString()
+            val geoCoder = Geocoder(view?.context)
             Thread {
                 try {
-                    val addresses = geoCoder.getFromLocationName(searchText, 1)
+                    val addresses = geoCoder.getFromLocationName(place, 1)
                     if (addresses.size > 0) {
-                        goToAddress(addresses, it, searchText)
+                        view?.let { goToAddress(addresses, it, place) }
                     }
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
             }.start()
-        }
+
     }
 
     private fun getPersonID(creditID: String) {
@@ -203,11 +195,11 @@ class MapsFragment : Fragment() {
             addresses[0].longitude
         )
         view.post {
-            setMarker(location, searchText, R.drawable.ic_baseline_place)
+            setMarker(location, searchText)
             map.moveCamera(
                 CameraUpdateFactory.newLatLngZoom(
                     location,
-                    15f
+                    10f
                 )
             )
         }
@@ -215,8 +207,7 @@ class MapsFragment : Fragment() {
 
     private fun setMarker(
         location: LatLng,
-        searchText: String,
-        resourceId: Int
+        searchText: String
     ): Marker {
         return map.addMarker(
             MarkerOptions()
@@ -247,5 +238,6 @@ class MapsFragment : Fragment() {
     private fun onPersonDataFetched(person: Person) {
         personPlaceOfBirth = person.place_of_birth.toString()
         Toast.makeText(context, personPlaceOfBirth, Toast.LENGTH_LONG).show()
+        initActorBirthPlace(personPlaceOfBirth)
     }
 }
