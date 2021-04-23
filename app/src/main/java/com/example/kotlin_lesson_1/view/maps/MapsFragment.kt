@@ -2,6 +2,8 @@ package com.example.kotlin_lesson_1.view.maps
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import androidx.fragment.app.Fragment
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,10 +14,15 @@ import androidx.core.content.ContextCompat
 import com.example.kotlin_lesson_1.R
 import com.example.kotlin_lesson_1.databinding.FragmentMapsBinding
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.android.synthetic.main.fragment_maps.*
+import java.io.IOException
 
 const val REQUEST_CODE_FOR_MAPS = 723
 
@@ -24,9 +31,11 @@ class MapsFragment : Fragment() {
     private var _binding: FragmentMapsBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var map: GoogleMap
+
     //     callback, он вызовется, когда карта будет готова к отображению и с ней можно будет работать
     private val callback = OnMapReadyCallback { googleMap ->
-
+        map = googleMap
         val sydney = LatLng(-34.0, 151.0)
         googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
@@ -67,6 +76,8 @@ class MapsFragment : Fragment() {
                         PackageManager.PERMISSION_GRANTED -> {
 
                     getMapData() // Если уже получено разрешение, то получаем контакты далее
+
+                    initSearchByAddress()
                 }
                 // Метод для нас, чтобы знали когда необходимы пояснения показывать перед запросом:
                 shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
@@ -131,5 +142,56 @@ class MapsFragment : Fragment() {
                 return
             }
         }
+    }
+
+    private fun initSearchByAddress() {
+
+        binding.mapButtonSearch.setOnClickListener {
+            val geoCoder = Geocoder(it.context)
+            val searchText = map_searchAddress.text.toString()
+            Thread {
+                try {
+                    val addresses = geoCoder.getFromLocationName(searchText, 1)
+                    if (addresses.size > 0) {
+                        goToAddress(addresses, it, searchText)
+                    }
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }.start()
+        }
+    }
+
+    private fun goToAddress(
+        addresses: MutableList<Address>,
+        view: View,
+        searchText: String
+    ) {
+        val location = LatLng(
+            addresses[0].latitude,
+            addresses[0].longitude
+        )
+        view.post {
+            setMarker(location, searchText, R.drawable.ic_baseline_place)
+            map.moveCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    location,
+                    15f
+                )
+            )
+        }
+    }
+
+    private fun setMarker(
+        location: LatLng,
+        searchText: String,
+        resourceId: Int
+    ): Marker {
+        return map.addMarker(
+            MarkerOptions()
+                .position(location)
+                .title(searchText)
+                .icon(BitmapDescriptorFactory.defaultMarker())
+        )
     }
 }

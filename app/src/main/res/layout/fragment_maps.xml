@@ -5,11 +5,41 @@
     android:background="@color/main_fragment_bg"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/map_input_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <EditText
+            android:id="@+id/map_searchAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:textColor="@color/white"
+            android:inputType="textPersonName"
+
+            android:autofillHints="Type here an address" />
+        <Button
+            android:id="@+id/map_buttonSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Поиск" />
+    </LinearLayout>
+
     <fragment xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".view.maps.MapsFragment" />
+        android:layout_height="wrap_content"
+        tools:context=".view.maps.MapsFragment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/map_input_text"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
