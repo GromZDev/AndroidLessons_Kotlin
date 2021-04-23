@@ -9,10 +9,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.example.kotlin_lesson_1.R
 import com.example.kotlin_lesson_1.databinding.FragmentMapsBinding
+import com.example.kotlin_lesson_1.model.credits.Cast
+import com.example.kotlin_lesson_1.model.gettingPersonIdForPerson.PersonForId
+import com.example.kotlin_lesson_1.repository.creditForPersonRepository.CreditForPersonRepository
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -31,7 +35,12 @@ class MapsFragment : Fragment() {
     private var _binding: FragmentMapsBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var actorsIdBundle: Cast
+
     private lateinit var map: GoogleMap
+
+    private lateinit var creditID: String
+    private var personID: Int = 0
 
     //     callback, он вызовется, когда карта будет готова к отображению и с ней можно будет работать
     private val callback = OnMapReadyCallback { googleMap ->
@@ -64,6 +73,13 @@ class MapsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val castList: List<Cast> = mutableListOf()
+        actorsIdBundle = arguments?.getParcelable(BUNDLE_MAP_EXTRA) ?: Cast(
+            0, 0, "1", "1", 0, "1", "1"
+        )
+
+        creditID = actorsIdBundle.credit_id
 
         checkGPSPermission()
 
@@ -147,6 +163,10 @@ class MapsFragment : Fragment() {
     private fun initSearchByAddress() {
 
         binding.mapButtonSearch.setOnClickListener {
+            getPersonID(creditID)
+
+            //   Toast.makeText(context, creditId, Toast.LENGTH_LONG).show()
+
             val geoCoder = Geocoder(it.context)
             val searchText = map_searchAddress.text.toString()
             Thread {
@@ -160,6 +180,14 @@ class MapsFragment : Fragment() {
                 }
             }.start()
         }
+    }
+
+    private fun getPersonID(creditID: String) {
+        CreditForPersonRepository.getPersonId(
+            creditID,
+            ::onCreditIdFetched,
+            ::onError
+        )
     }
 
     private fun goToAddress(
@@ -193,5 +221,15 @@ class MapsFragment : Fragment() {
                 .title(searchText)
                 .icon(BitmapDescriptorFactory.defaultMarker())
         )
+    }
+
+    private fun onCreditIdFetched(actors: PersonForId) {
+        personID = actors.id
+        Toast.makeText(context, personID.toString(), Toast.LENGTH_LONG).show()
+
+    }
+
+    private fun onError() {
+        Toast.makeText(context, "ERROR<<<<<<<<<<<<<<<<<<<<", Toast.LENGTH_SHORT).show()
     }
 }
