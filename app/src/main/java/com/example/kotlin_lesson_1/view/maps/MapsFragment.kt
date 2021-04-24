@@ -27,6 +27,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.android.synthetic.main.fragment_maps.*
 import java.io.IOException
 
 const val REQUEST_CODE_FOR_MAPS = 723
@@ -38,20 +39,21 @@ class MapsFragment : Fragment() {
 
     private lateinit var actorsIdBundle: Cast
 
-    private lateinit var map: GoogleMap
-
     private lateinit var creditID: String
     private var personID: Int = 0
     private lateinit var personPlaceOfBirth: String
+    private lateinit var thisMap: GoogleMap
 
     //     callback, он вызовется, когда карта будет готова к отображению и с ней можно будет работать
     private val callback = OnMapReadyCallback { googleMap ->
-        map = googleMap
+        thisMap = googleMap
         val sydney = LatLng(-34.0, 151.0)
         googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
-    }
 
+        activateMyLocation(thisMap) // Сетим появление штатной кнопки для показа моего места
+
+    }
 
     companion object {
         const val BUNDLE_MAP_EXTRA = "MY_Maps"
@@ -80,10 +82,9 @@ class MapsFragment : Fragment() {
             0, 0, "1", "1", 0, "1", "1"
         )
 
-        creditID = actorsIdBundle.credit_id
+        creditID = actorsIdBundle.credit_id // Берем переданные данные конкретного актёра
 
-        checkGPSPermission()
-
+        checkGPSPermission() // Запрашиваем все разрешения
     }
 
     private fun checkGPSPermission() {
@@ -94,7 +95,9 @@ class MapsFragment : Fragment() {
 
                     getMapData() // Если уже получено разрешение, то получаем контакты далее
 
-                    getPersonID(creditID)
+                    getPersonID(creditID) // Для получения ID актера передаём сюда полученный credit_id
+
+                    initSearchByAddress() // Это логика поиска при вводе места вручную
                 }
                 // Метод для нас, чтобы знали когда необходимы пояснения показывать перед запросом:
                 shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
@@ -162,21 +165,38 @@ class MapsFragment : Fragment() {
     }
 
     private fun initActorBirthPlace(place: String) {
+        val geoCoder = Geocoder(view?.context)
+        Thread {
+            try {
+                val addresses = geoCoder.getFromLocationName(place, 1)
+                if (addresses.size > 0) {
+                    view?.let { goToAddress(addresses, it, place) }
+                }
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }.start()
+    }
 
-            val geoCoder = Geocoder(view?.context)
+    private fun initSearchByAddress() {
+        binding.mapButtonSearch.setOnClickListener {
+            val geoCoder = Geocoder(it.context)
+            val place = map_searchAddress.text.toString()
             Thread {
                 try {
                     val addresses = geoCoder.getFromLocationName(place, 1)
                     if (addresses.size > 0) {
-                        view?.let { goToAddress(addresses, it, place) }
+                        goToAddress(addresses, it, place)
                     }
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
             }.start()
-
+        }
     }
 
+    // Логика получения ID актера (onCreditIdFetched) для последующей передачи в функцию получения
+    // полных api данных по конкретному актёру
     private fun getPersonID(creditID: String) {
         CreditForPersonRepository.getPersonId(
             creditID,
@@ -196,7 +216,7 @@ class MapsFragment : Fragment() {
         )
         view.post {
             setMarker(location, searchText)
-            map.moveCamera(
+            thisMap.moveCamera(
                 CameraUpdateFactory.newLatLngZoom(
                     location,
                     10f
@@ -209,7 +229,7 @@ class MapsFragment : Fragment() {
         location: LatLng,
         searchText: String
     ): Marker {
-        return map.addMarker(
+        return thisMap.addMarker(
             MarkerOptions()
                 .position(location)
                 .title(searchText)
@@ -218,7 +238,7 @@ class MapsFragment : Fragment() {
     }
 
     private fun onCreditIdFetched(actors: PersonForId) {
-        personID = actors.id
+        personID = actors.id // тянем id для передачи в функцию получения полных данных по актеру
         getPersonDataBirth(personID)
     }
 
@@ -237,7 +257,24 @@ class MapsFragment : Fragment() {
 
     private fun onPersonDataFetched(person: Person) {
         personPlaceOfBirth = person.place_of_birth.toString()
-        Toast.makeText(context, personPlaceOfBirth, Toast.LENGTH_LONG).show()
-        initActorBirthPlace(personPlaceOfBirth)
+        Toast.makeText(
+            context,
+            getString(R.string.output_birth_place) + " $personPlaceOfBirth",
+            Toast.LENGTH_LONG
+        ).show()
+        initActorBirthPlace(personPlaceOfBirth) // Полученное место актера передаем в карту
+    }
+
+    private fun activateMyLocation(googleMap: GoogleMap) {
+        context?.let {
+            val isPermissionGranted =
+                ContextCompat.checkSelfPermission(
+                    it,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) ==
+                        PackageManager.PERMISSION_GRANTED
+            googleMap.isMyLocationEnabled = isPermissionGranted
+            googleMap.uiSettings.isMyLocationButtonEnabled = isPermissionGranted
+        }
     }
 }

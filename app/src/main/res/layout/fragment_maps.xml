@@ -6,30 +6,33 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/map_input_text"
+        android:id="@+id/map_input_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="8dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <EditText
             android:id="@+id/map_searchAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:autofillHints="Type here an address"
             android:ems="10"
-            android:textColor="@color/white"
+            android:hint="@string/input_hint"
             android:inputType="textPersonName"
+            android:textColor="@color/white"
+            android:textColorHint="@color/teal_200" />
 
-            android:autofillHints="Type here an address" />
         <Button
             android:id="@+id/map_buttonSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Поиск" />
+            android:text="@string/search" />
     </LinearLayout>
 
     <fragment xmlns:tools="http://schemas.android.com/tools"
@@ -37,9 +40,9 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".view.maps.MapsFragment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/map_input_text"/>
+        app:layout_constraintTop_toBottomOf="@+id/map_input_field"
+        tools:context=".view.maps.MapsFragment" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
