@@ -13,8 +13,13 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlin_lesson_1.databinding.FragmentPopularFilmDetailsBinding
+import com.example.kotlin_lesson_1.model.credits.Cast
 import com.example.kotlin_lesson_1.model.dto.Movie
+import com.example.kotlin_lesson_1.repository.castRepository.CastFilmRepository
+import com.example.kotlin_lesson_1.view.casts.CastsAdapter
 import com.example.kotlin_lesson_1.viewModel.popularFilmViewModel.PopularFilmDetailsViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_popular_film_details.*
@@ -26,14 +31,21 @@ class PopularFilmDetailFragment : Fragment() {
 
     private lateinit var popularFilmsBundle: Movie
 
-    // =============  1 Объявляем SharedPreferences и контекст для него ==============
     private lateinit var popularContext: Context
     private lateinit var sharedPref: SharedPreferences
-// ===============================================================================
 
     private val popularFilmsViewModel: PopularFilmDetailsViewModel by lazy {
         ViewModelProvider(this).get(PopularFilmDetailsViewModel::class.java)
     }
+
+    // =============   Объявляем поля для сеттинга списка актёров ==============
+    private lateinit var castActors: RecyclerView
+    private lateinit var castAdapter: CastsAdapter
+    private lateinit var castLayoutManager: LinearLayoutManager
+
+    private var movieId = 1
+    private var filmsLanguage = "ru"
+// ===============================================================================
 
     companion object {
         const val POPULAR_BUNDLE_EXTRA = "MY_Popular_Film"
@@ -53,10 +65,10 @@ class PopularFilmDetailFragment : Fragment() {
         _binding = FragmentPopularFilmDetailsBinding.inflate(inflater, container, false)
         mainView = binding.root
 
-// ==================  2 Инициируем преференции и берем контекст =================
+
         popularContext = context!!
         sharedPref = popularContext.getSharedPreferences("My-Pref", Context.MODE_PRIVATE)
-// ===============================================================================
+
         return mainView
     }
 
@@ -73,15 +85,22 @@ class PopularFilmDetailFragment : Fragment() {
             -1, "111", "111", "111", "111", 0.0f, "111"
         )
 
-//        oneFilmViewModelDetails.oneFilmLiveData.observe(
-//            viewLifecycleOwner,
-//            Observer { renderOneFilmData(it) })
-//        oneFilmViewModelDetails.getOneFilmFromRemoteSource()
+// ==================  Инициируем ресайклер для актёров =================
+        castActors = binding.castRecyclerView
+        castActors.layoutManager = LinearLayoutManager(
+            context,
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
 
+        castLayoutManager = castActors.layoutManager as LinearLayoutManager
 
-// =========== 4 Берем сохранённую строку из преференций и сетим в тост ==========
-        loadPreviousFilmTitleFromSharedPreferences()
+        castAdapter = CastsAdapter()
+        castActors.adapter = castAdapter
 // ===============================================================================
+
+        loadPreviousFilmTitleFromSharedPreferences()
+
 
         setFilm(popularFilmsBundle)
 
@@ -105,10 +124,13 @@ class PopularFilmDetailFragment : Fragment() {
             Color.rgb(123, 123, 123),
             android.graphics.PorterDuff.Mode.MULTIPLY
         )
-
-// =========== 3 Записываем в SharedPref тайтл просматриваемого фильма ===========
-        saveFilmTitleToSharedPreferences()
+// =========== Берём id этого фильма и передаем в метод получения актёров ===========
+        movieId = filmData.id.toInt()
+        getActors(movieId)
 // ===============================================================================
+
+        saveFilmTitleToSharedPreferences()
+
         val switch: SwitchCompat = binding.swFilmSwitch
 
         switch.setOnClickListener {
@@ -164,5 +186,23 @@ class PopularFilmDetailFragment : Fragment() {
 
     }
 
+    // ==================== Функции для вывода актёров ============================
+    private fun getActors(id: Int) {
+        CastFilmRepository.getCastList(
+            filmsLanguage,
+            id,
+            ::onCastFetched,
+            ::onError
+        )
+    }
+
+    private fun onCastFetched(actors: List<Cast>) {
+        castAdapter.setActors(actors)
+    }
+
+    private fun onError() {
+        Toast.makeText(context, "ERROR<<<<<<<<<<<<<<<<<<<<", Toast.LENGTH_SHORT).show()
+    }
+// ===============================================================================
 }
 

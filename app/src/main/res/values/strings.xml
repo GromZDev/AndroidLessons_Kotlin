@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Kotlin_FilmApp_Lesson_8</string>
+    <string name="app_name">Kotlin_FilmApp_Lesson_10</string>
     <string name="film_image">Film Image</string>
     <string name="receiving_data">Receiving Data…</string>
     <string name="year">Год:</string>
@@ -20,4 +20,10 @@
     <string name="add_to_favorite">Add to Favorite</string>
     <string name="favorite_film_icon">Favorite Film icon</string>
     <string name="my_contacts">Мои контакты</string>
+    <string name="actor_image">Actor image</string>
+    <string name="place_point">Place point</string>
+    <string name="birth_place">Birth place</string>
+    <string name="search">Поиск</string>
+    <string name="input_hint">Type here any place</string>
+    <string name="output_birth_place">Место рождения этого актёра:</string>
 </resources>
