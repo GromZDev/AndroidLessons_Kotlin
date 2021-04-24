@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "Kotlin_Lesson_1"
+rootProject.name = "com.example.kotlin_lesson_MyMovieApp"

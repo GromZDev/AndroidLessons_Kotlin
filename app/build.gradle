@@ -10,7 +10,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.example.kotlin_lesson_1"
+        applicationId "com.example.kotlin_lesson_MyMovieApp"
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
