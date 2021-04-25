@@ -27,7 +27,7 @@ class MyPushNotificationService : FirebaseMessagingService() {
         val title = map[PUSH_KEY_TITLE]
         val message = map[PUSH_KEY_MESSAGE]
         if (!title.isNullOrBlank() && !message.isNullOrBlank()) {
-            Toast.makeText(applicationContext, "Данные дошли!!!", Toast.LENGTH_LONG).show()
+        //    Toast.makeText(applicationContext, "Данные дошли!!!", Toast.LENGTH_LONG).show()
             showPushNotification(title, message)
         }
     }
@@ -58,14 +58,14 @@ class MyPushNotificationService : FirebaseMessagingService() {
 
         // Вызываем notify и выводим пуш-уведомление.
         notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build())
-        Toast.makeText(applicationContext, "Push-уведомление пришло!!!", Toast.LENGTH_LONG).show()
+     //   Toast.makeText(applicationContext, "Push-уведомление пришло!!!", Toast.LENGTH_LONG).show()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel(notificationManager: NotificationManager) {
         val  name = "Channel name"
         val descriptionText = "Channel description"
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val importance = NotificationManager.IMPORTANCE_HIGH
         val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
             description = descriptionText
         }
@@ -76,6 +76,7 @@ class MyPushNotificationService : FirebaseMessagingService() {
     // Этот метод вызывается единожды в начале работы приложения:
     override fun onNewToken(newToken: String) {
         super.onNewToken(newToken)
+        // Тут надо написать код для отправки токена на бэкэнд - сервер
     }
 
     companion object {
