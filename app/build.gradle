@@ -37,7 +37,25 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            versionNameSuffix "-debug"
+        }
+        preRelease {
+            initWith debug
+            versionNameSuffix "-preReleaseAppMode"
+        }
     }
+
+    flavorDimensions "default"
+    productFlavors {
+        dark {
+            versionNameSuffix ".dark"
+        }
+        light {
+            versionNameSuffix ".light"
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

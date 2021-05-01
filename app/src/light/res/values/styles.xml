@@ -1,0 +1,70 @@
+<resources>
+
+    <style name="MyFilmRecyclerItem" parent="TextAppearance.AppCompat">
+        <item name="android:background">@drawable/item_film_recycler_background</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">8dp</item>
+    </style>
+
+    <style name="ItemRounded">
+        <item name="cornerSize">10%</item>
+    </style>
+
+    <style name="ItemSpecificRounded">
+        <item name="cornerSize">6%</item>
+    </style>
+
+    <style name="ContactImgItemCircle">
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="FilmNameDescriptionFragment">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/filmNameDescFragmentSize</item>
+    </style>
+
+    <style name="FilmAttributesDescriptionFragment">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/filmAttributesDescFragmentSize</item>
+    </style>
+
+    <style name="FilmAttributesIconDescriptionFragment">
+        <item name="android:layout_marginStart">@dimen/attributesFilmIconsMarginDescriptionFragment</item>
+        <item name="android:layout_marginBottom">@dimen/attributesFilmIconsMarginDescriptionFragment</item>
+        <item name="android:layout_width">@dimen/attributesFilmIconsSize</item>
+        <item name="android:layout_height">@dimen/attributesFilmIconsSize</item>
+        <item name="android:textAlignment">center</item>
+
+    </style>
+
+    <style name="FilmAttributesTextDescriptionFragment">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/filmAttributesDescFragmentSize</item>
+        <item name="android:layout_marginStart">@dimen/attributesFilmIconsMarginDescriptionFragment</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/attributesTextFilmLayoutHeight</item>
+    </style>
+
+    <style name="FilmRecyclerVew">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="FButtonMainFilmFragment">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/floatingButtonMarginMainFilmFragment</item>
+        <item name="android:src">@drawable/ic_film_category</item>
+        <item name="maxImageSize">@dimen/floatingButtonMainMaxSize</item>
+    </style>
+
+    <style name="FrameLayoutProgressBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/floatingButtonMarginMainFilmFragment</item>
+
+
+    </style>
+
+</resources>
