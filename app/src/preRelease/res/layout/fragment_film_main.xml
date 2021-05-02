@@ -9,23 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <FrameLayout
-            android:id="@+id/film_recyclerView_category_frame"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/film_recyclerView_category"
-                style="@style/FilmRecyclerVew"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </FrameLayout>
-
         <TextView
             android:id="@+id/tw_partName"
             android:layout_width="match_parent"
@@ -38,9 +21,9 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/film_recyclerView_category_frame">
-
+            app:layout_constraintTop_toTopOf="parent">
         </TextView>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/film_recyclerView_vertical"
             style="@style/FilmRecyclerVew"
@@ -48,13 +31,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tw_partName" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/buttonChangeFilmCategory"
-            style="@style/FButtonMainFilmFragment"
-            android:contentDescription="@string/film_category_change_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
 
         <FrameLayout
             android:id="@+id/mainFragment_loadingLayout"

@@ -24,7 +24,7 @@ import com.example.kotlin_lesson_MyMovieApp.view.popularFilms.PopularFilmsAdapte
 import com.example.kotlin_lesson_MyMovieApp.viewModel.appStates.AppState
 import com.example.kotlin_lesson_MyMovieApp.viewModel.MainViewModel
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_film_main.*
+
 
 class MainFilmFragment : Fragment() {
 
@@ -218,7 +218,7 @@ class MainFilmFragment : Fragment() {
     }
 
     private fun initCategoryRecyclerView() {
-        val recyclerViewCategory: RecyclerView = film_recyclerView_category
+        val recyclerViewCategory: RecyclerView = binding.filmRecyclerViewCategory
 
         recyclerViewCategory.apply {
             //    layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
