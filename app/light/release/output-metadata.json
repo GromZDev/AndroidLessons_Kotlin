@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.example.kotlin_lesson_MyMovieApp",
+  "variantName": "processLightReleaseResources",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "versionCode": 1,
+      "versionName": "1.0.light",
+      "outputFile": "app-light-release.apk"
+    }
+  ]
+}
