@@ -1,0 +1,7 @@
+<resources>
+
+    <color name="main_fragment_bg">#2F4454</color>
+    <color name="item_rv_bg">#1C3334</color>
+    <color name="detail_fragment_bg">#2E6D9E</color>
+
+</resources>
