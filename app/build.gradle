@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -10,7 +11,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.example.kotlin_lesson_1"
+        applicationId "com.example.kotlin_lesson_MyMovieApp"
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
@@ -85,6 +86,9 @@ dependencies {
 
     //for GoogleMaps
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
+
+    // for Firebase
+    implementation 'com.google.firebase:firebase-messaging:21.1.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
