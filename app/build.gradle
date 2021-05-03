@@ -51,6 +51,7 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
+            versionNameSuffix " <<< Battle Version >>>"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "TYPE", '"RELEASE"'
